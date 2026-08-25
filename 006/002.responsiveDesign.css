@@ -1,0 +1,37 @@
+.welcomeSec {
+    display: flex;
+    margin: 0 auto;
+    width: 80%;
+    height: 50vh;
+    background-color: bisque;
+    justify-content: space-around;
+    align-items: center;
+    border: 3px solid green;
+}
+.welcomeSec .col {
+    width: 36%;
+    height: 80%;
+    background-color: darksalmon;
+    border: 3px solid red;
+}
+
+@media screen and (max-width: 800px) {
+  /* Your mobile-specific CSS rules go here */
+  .welcomeSec {
+    background-color: rgb(128, 255, 93);
+    font-size: 14px;
+    flex-wrap: wrap;
+    height: auto;
+    row-gap: 50px;
+    padding: 24px 0;
+  }
+  .welcomeSec .col {
+    width: 88%;
+    height: 200px;
+    background-color: darksalmon;
+    border: 3px solid red;
+    font-size: 1.5rem;/* rem is relative to HTML element font size
+                         em is relative to parent element fontSize */
+} 
+
+}

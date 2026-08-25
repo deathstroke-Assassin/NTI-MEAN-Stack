@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Lunch</h1>
+    <div id="mealsa"></div>
+
+    <script>
+      meals = [
+        [
+          "Sed varius",
+          "Aenean pharetra tortor dui in pellentesque",
+          "$29.79",
+          "IMG\\lunch-01.jpg",
+        ],
+        [
+          "Sed varius",
+          "Aenean pharetra tortor dui in pellentesque",
+          "$29.79",
+          "IMG\\lunch-02.jpg",
+        ],
+        [
+          "Sed varius",
+          "Aenean pharetra tortor dui in pellentesque",
+          "$29.79",
+          "IMG\\lunch-03.jpg",
+        ],
+        [
+          "Sed varius",
+          "Aenean pharetra tortor dui in pellentesque",
+          "$29.79",
+          "IMG\\lunch-04.jpg",
+        ],
+        [
+          "Sed varius",
+          "Aenean pharetra tortor dui in pellentesque",
+          "$29.79",
+          "IMG\\lunch-05.jpg",
+        ],
+        [
+          "Sed varius",
+          "Aenean pharetra tortor dui in pellentesque",
+          "$29.79",
+          "IMG\\lunch-06.jpg",
+        ],
+      ];
+
+      for (i = 0; i < meals.length; i++) {
+        console.log(meals[i][0]);
+        div = document.createElement("div");
+
+        h2 = document.createElement("h2");
+        h2.textContent = meals[i][0];
+
+        img = document.createElement("img");
+        img.src = meals[i][3];
+        // img.setAttribute("src", "img/"+ meals[i][3])
+        img.width = 300;
+
+        price = document.createElement("h4");
+        price.textContent = meals[i][2];
+
+        desc = document.createElement("h3");
+        desc.textContent = meals[i][1];
+        p = document.createElement("p");
+
+        div.appendChild(img);
+        div.appendChild(p);
+
+        p.appendChild(h2);
+        p.appendChild(desc);
+        p.appendChild(price);
+
+        document.querySelector("#mealsa").appendChild(div);
+      }
+    </script>
+    <style src="dinnerStyle.css">
+      h1 {
+        text-align: center;
+        font-size: 64px;
+      }
+      #mealsa {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: space-between;
+        padding: 10px;
+        row-gap: 36px;
+      }
+      #mealsa > div {
+        /* firs child div in ID mealsa  */
+        width: 500px;
+      }
+      div {
+        display: flex;
+        flex-direction: row;
+        padding: 10px;
+      }
+      img {
+        margin: 8px;
+        border-radius: 2rem;
+      }
+      img:hover {
+        opacity: 50%;
+        transition-duration: 0.4s;
+      }
+      body {
+        background-color: #ffebe8;
+      }
+      h4 {
+        color: #b72818;
+      }
+    </style>
+  </body>
+</html>

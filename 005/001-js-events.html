@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form
+      action="#"
+      method="post"
+      onsubmit="formSubmit(event)"
+      id="myForm"
+      enctype="multipart/form-data"
+    >
+      <!-- enctype multipart is important to be upload files -->
+      <label for="userName1">User Name</label>
+      <input type="text" name="" id="userName1"  />
+      <!-- label for is used to tie the label to the input field -->
+      <br />
+      <br />
+      <label for="password">password</label>
+      <input type="password" id="password"  />
+      <input type="submit" value="login" />
+    </form>
+
+    <br /><br />
+    <!-- 
+    <button onclick="alertMsg();"> button</button>
+    <br>
+    <br>
+    <p>onblur</p>
+    <input type="text" onblur="countChars2(this);" id="userName">
+    <p>onkeyup</p>
+    <input type="text" onkeyup="countChars2(this);" id="userName">
+    <p>onkeydown</p>
+    <input type="text" onkeydown="countChars2(this);" id="userName">
+    <p>onchange</p>
+    <input type="text" onchange="countChars2(this);" id="userName">
+    <span id="numberChars" >    </span> -->
+    <script>
+      function formSubmit(event) {
+        event.preventDefault(); // prevents the default submit behavior
+        allAreValid = true;
+        username = document.querySelector("#userName1");
+        password = document.querySelector("#password");
+
+        //   if (emailPattern.test(username.value)) {
+        //     console.log("good email");
+        //   } else {
+        //     console.log("bad email");
+        //   }
+        passwordPattern= /.{8,}/ //  dot .  works for all symbols 
+        // {8,} 8 or more
+        emailPattern = /^([a-zA-Z]{1,9})[@]{1}([a-zA-Z]{1,8}[.][a-zA-Z]{3})$/;
+        if (!emailPattern.test(username.value)) {
+          allAreValid = false;
+          document.querySelector("#userName1").style.backgroundColor = "red";
+          console.log("username is Incorrect");
+        }
+        if (!(passwordPattern.test(password.value))) {
+        // if (!(password.value.length >= 8)) {
+          // use () with not always (!)
+          // this is wrong => !condition
+          // this is correct => !(condition)
+          allAreValid = false;
+          document.querySelector("#password").style.backgroundColor = "red";
+          console.log("password too short, must be more than 8");
+        }
+        if (allAreValid) {
+          document.querySelector("#myForm").submit(); //submits after validation
+          console.log("data validated");
+        }
+      }
+
+      //         function alertMsg() {
+      //             alert("hi from code")
+      //         }
+      //         function countCharacters() {
+      //             document.querySelector("#numberChars").innerHTML = document.querySelector("#userName").value.length;
+      //         }
+      //                 function countChars2(obj) { // validation
+      //                     if (obj.value.length < 5 || obj.value.length > 10) {
+      //                         obj.style.backgroundColor= "red"
+      //                     } else {
+      //                         obj.style.backgroundColor= "lightgreen"
+
+      //                     }
+      // // validation is better in backend but you have to do it in both
+      // // so in front is good to validate before data is sent to the backend not cause server heavey load
+      //             document.querySelector("#numberChars").innerHTML = obj.value.length;
+      //         }
+    </script>
+  </body>
+</html>

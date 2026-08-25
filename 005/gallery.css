@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Eater&family=Noto+Sans+Symbols:wght@100..900&family=Rum+Raisin&family=Yuyu&display=swap');
+
+
+
+body {
+    background-color: #ccc;
+      font-family: "Bungee", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+.categories {
+    display: flex;
+    width: 46%;
+    margin:30px auto;
+    align-items: center;
+    justify-content: space-between;
+}
+.category:hover {
+    background-color: black;
+    color: azure;
+    cursor: pointer;
+    transition: all 0.4s;
+}
+.category {
+    border-radius: 1rem;
+    transition: all 0.4s;
+    padding: 8px;
+
+}
+

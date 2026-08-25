@@ -1,0 +1,29 @@
+regulare expression
+
+
+passowrd 
+   must start with letter (capital or small)
+   must contain digits
+   must contain special characters ( @#$% )
+
+email
+   must start with letter (capital or small)
+   must contain @ in middle
+   must contain . after some characters after @
+   must contain end with characters
+    
+
+
+card number 
+   has 16 digits 4x4
+   want to mask the first 12 digits with *
+   card number formatted with space or dash betwwen every 4 digits
+   reserve dashes and spaces
+
+mask phone number - (like NTRA of Egypt for phone numbers check conncted on your national ID)
+   mask all digits except first 3 digits and last 3 digits 
+
+
+from email
+extract username
+extract domainName 

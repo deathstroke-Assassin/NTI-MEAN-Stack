@@ -1,0 +1,162 @@
+<h1>regular expressions:</h1>
+<ol>
+  <li>search in the given text</li>
+  <li>test</li>
+  <li>match</li>
+  <li>matchAll</li>
+  <li>replace</li>
+</ol>
+<script>
+  // pattern= new RegExp("ntI", "i")
+  /*    pattern= /nti/gi; //pattern  i= capital or small ; g= group=> matchAll
+    searchtxt = "welcome to nti cources, Nti , ntI nTi"
+ */
+  // if (pattern.test(searchtxt)) {  //test=> true || false
+  //     console.log("nti is found");
+  // } else {
+  //     console.log("nti is not found");
+
+  // }
+  // arr= searchtxt.match(pattern)
+  // for (i=0; i< arr.length; i++) {
+  //     console.log(arr[i]);
+  // }
+  /*     arr= searchtxt.matchAll(pattern) // matchAll=> array of singular chars
+    for (const [matchText] of arr) {
+        console.log(matchText);
+    } */
+
+  pattern = /nti/gi; //pattern  i= capital or small ; g= group=> matchAll
+  searchtxt = "welcome to nti cources, Nti , ntI nTi";
+  newSearchText = searchtxt.replace(pattern, "Creativa");
+  console.log(newSearchText); // welcome to Creativa cources, Creativa , Creativa Creativa
+
+  /* 
+    304090412009797
+    - 
+    1800 - 1
+    1900 - 2
+    2000 - 3
+     -- year 2004 2005=> 04 05
+       --month
+         --day
+           --- governate
+              ---- unique of child birth that day
+    */
+
+  /* password
+   start with letter
+   contains digits
+   capital and small
+   contains special characters (@#$%^&-()[]{}) */
+
+  pinCode = "12340000";
+  //    pinCodePattern = /\d/; //  \d digits check one is enough
+  pinCodePattern = /\d{4}/; //  \d digits check 4 is enough after one another nothing in between
+  pinCodePattern = /^\d{4,8}$/; // ^ => starts with , $ => ends with
+  // {4,8 } accept from 4 numbers to 8 numbers nothing more, nothing less
+  if (pinCodePattern.test(pinCode)) {
+    console.log("good pin code");
+  } else {
+    console.log("bad pin code");
+  }
+
+  /* car label = 1234 abc */
+  carLabel = "aba4351";
+  //    carlabelPattern= /^\w{1,3}\d{4}$/ //\w word and numbers character (abcs 123)
+  //    carlabelPattern= /^[a-z]{1,3}/ //set [a=z] small only word character (abcs 123)
+  //    carlabelPattern= /^[a-zA-z]{1,3}/ //set [a=z] and [A-Z] word character (abcs 123)
+
+  // carlabelPattern= /^([a-zA-z]{1,3})(\d{1,4})$/
+  carLabel = "aba-4351";
+
+  carlabelPattern = /^([a-zA-z]{1,3})(-?)(\d{1,4})$/;
+  carlabelPattern = /^([a-zA-z]{1,3})([-@#$%^&]?)(\d{1,4})$/;
+  // ? happens once or doesn't happen
+  // * zero or more
+  // + one or more
+  if (carlabelPattern.test(carLabel)) {
+    console.log("good car label");
+  } else {
+    console.log("bad car label");
+  }
+
+  let phone1 = "(02) 123 456 789";
+  let phone2 = "02-123456789";
+  let phone3 = "+2-123456789";
+  clearPhoneNumber = phone1.replace(/\D/g, "");
+
+  clearPhone2Number = phone2.replace(/\D/g, "");
+
+  clearPhone3Number = phone3.replace(/\+/g, "00");
+  clearPhone3Number = clearPhone3Number.replace(/\D/g, "");
+
+  console.log("phone number is " + clearPhoneNumber);
+  console.log("phone2 number is " + clearPhone2Number);
+  console.log("phone3 number is " + clearPhone3Number);
+
+  //==============
+
+  url = "https://www.domain.ext/v1/api/sales";
+  // target: www.domain.ext
+  domainNamePattern = /^(?<protocol>http(s)?):\/\/(?<domainName>[^\/]+)\//;
+  result = url.match(domainNamePattern);
+  console.log(result.groups.domainName);
+  console.log(result.groups.protocol);
+
+  //(   home work  )    =================
+  // email
+  email = "Name@google.com";
+  email = "UserrName@yahoo.com";
+  // emailPattern = /^(?<username>([a-zA-Z]{1,9}))([@])(?<domainName>([a-z]{1,8})([.])([a-z]{3}))$/;
+  emailPattern = /^(?<username>[a-zA-Z]{1,9})[@](?<domainName>[a-zA-Z]{1,8}[.][a-zA-Z]{3})$/;
+  if (emailPattern.test(email)) {
+    console.log("good email");
+  } else {
+    console.log("bad email");
+  }
+  console.log("User Name is " + email.match(emailPattern).groups.username);
+  console.log("Domain Name is " + email.match(emailPattern).groups.domainName);
+  // ===================================
+
+  // password
+  password = "HiImpaass%1";
+  PassPattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@#$%])/;
+  if (PassPattern.test(password)) {
+    console.log("good Password");
+  } else {
+    console.log("bad Password");
+  }
+  // ===================================
+
+  // card number
+  cardNum = "1234-5678-1112-3344";
+  // ((cardNPattern = /^\d{4}([ -]?)\d{4}\1\d{4}\1/),
+  //   (formatedCN = cardNum.replace(cardNPattern, "****$1****$1****$1")));
+  // console.log(formatedCN);
+
+  
+  formatedCN = cardNum.replace(/\d\d\d\d-/g, "****-");
+  console.log(formatedCN);
+
+
+
+  // phone number
+  /* phone= "01206556191"
+phonePattern= /^\d{8}/
+maskedPhonenumber= phone.replace(phonePattern, phone.slice(0,3) + "*****")
+console.log(maskedPhonenumber);
+ */
+
+  phone = "01206556191";
+  phonePattern = /^(\d{3})\d+(\d{3})$/;
+  maskedPhonenumber = phone.replace(phonePattern, "$1*****$2");
+
+// can be used by for loop using split() then join() on the string to make it an editable array
+
+  // phonePattern = /^(\d{3})\d+(\d{3})$/;
+  // maskedPhonenumber = phone.replace(phonePattern, "$1*****$2");
+
+
+  console.log(maskedPhonenumber);
+</script>

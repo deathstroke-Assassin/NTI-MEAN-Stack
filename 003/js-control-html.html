@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+       <h1 id="title01">tItLe HeRe</h1>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime autem quisquam explicabo, quo, labore velit officia, modi eius cupiditate quibusdam porro aut at molestiae veritatis tempora laboriosam nesciunt omnis dolore?</p>
+    <button onclick="fn01()">click me boi</button>
+    <!-- 
+    id for one tag only
+    class for more than one tag    
+    .details*3   abbreviation
+      -->
+    <div class="details">d000111</div>
+    <div class="details">d0022222</div>
+    <div class="details">d0003333</div>
+    <script>
+        function fn01() {
+            document.getElementById("title01").innerText="Title changed BOI"
+            document.querySelector("#title01").innerText="Title queryy BOI"
+            document.querySelectorAll(".details").innerText="Title queryy BOI"
+            details= document.getElementsByClassName("details")
+
+            for (i=0; i< details.length;i++) {
+                details[i].innerText = "eke meke" + (i+1)
+            }
+        }
+    </script>
+</body>
+</html>

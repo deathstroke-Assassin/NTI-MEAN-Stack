@@ -1,0 +1,223 @@
+<script>
+  //   for (var x =1; x<= 5; x++){
+  //       console.log("****^^^****");
+  //       console.log(x);
+  //   }
+  //   for (var x = 1; x <= 10; x+=2) {
+  //       console.log("************^^^^^");
+  //       console.log(x);
+  //   }
+  for (var x = 10; x >= 0; x -= 2) {
+    console.log(x);
+  }
+  sum = 0; // start 0
+  for (var x = 1; x <= 5; x++) {
+    sum += x;
+    console.log(sum);
+  }
+  factorial = 1; // start 1
+  for (var x = 1; x <= 5; x++) {
+    factorial *= x;
+    console.log(factorial);
+  }
+  sumo = 0;
+  for (n = 1; n <= 5; n++) {
+    sumo += n;
+  }
+  console.log(`sum of the first ${n - 1} numbers is ${sumo}`);
+  facto = 1;
+  for (n = 1; n <= 5; n++) {
+    facto *= n;
+  }
+  console.log(`factorial of  ${n - 1}! is ${facto}`);
+  for (line = 1; line <= 12; line++) {
+    for (num = line; num <= 12; num++) {
+      console.log(line + "X" + num + "= " + line * num);
+    }
+    console.log("----------------------------");
+  }
+  for (line = 1; line <= 5; line++) {
+    starzz = "";
+    for (star = 1; star <= line; star++) {
+      starzz += " * ";
+    }
+    console.log(starzz);
+  }
+  for (line = 1; line <= 5; line++) {
+    stars = "";
+    for (star = 1; star <= line; star++) {
+      stars = stars + " * ";
+    }
+    console.log(stars);
+  }
+  for (line = 1; line <= 5; line++) {
+    starzz = "";
+    for (star = 1; star <= 6 - line; star++) {
+      starzz += " * ";
+    }
+    console.log(starzz);
+  }
+  for (line = 1; line <= 5; line++) {
+    spaces = "";
+    for (space = 1; space <= 5 - line; space++) {
+      spaces += " - ";
+    }
+    stars = "";
+    for (star = 1; star <= line; star++) {
+      stars += " * ";
+    }
+    console.log(spaces + stars);
+  }
+  //     x = 1;
+  //     while(x <= 5){
+  // console.log(x);
+
+  //         x++;
+  //     }
+
+  for (line = 1; line <= 5; line++) {
+    spaces = "";
+    for (space = 0; space < 5 - line; space++) {
+      spaces += " - ";
+    }
+    stars = "";
+    for (star = 1; star <= 2 * line - 1; star += 1) {
+      stars += " * ";
+    }
+    console.log(spaces + stars + spaces);
+  }
+  /* 
+----=----
+---===---
+--=====--
+-=======-
+=========
+
+*/
+  console.log("============");
+
+  /*
+   *
+   **
+   * *
+   *  *
+   *****
+   */
+  for (line = 1; line <= 5; line++) {
+    stars = "";
+    for (star = 1; star <= line; star++) {
+      if (star == 1 || star == line || line == 5) {
+        stars += " * ";
+      } else {
+        stars += " - ";
+      }
+    }
+    console.log(stars);
+  }
+  console.log("--0-0-0-0-00-0-0--");
+
+  /*
+   *****
+   *--*-
+   *-*--
+   **---
+   *----
+   */
+  for (line = 1; line <= 5; line++) {
+    starz = "";
+    for (star = 1; star <= 6 - line; star++) {
+      if (star == 1 || star == 6 - line || line == 1) {
+        starz += " * ";
+      } else {
+        starz += " - ";
+      }
+    }
+    console.log(starz);
+  }
+  console.log("============");
+
+  /* 
+  ----*
+  ---**
+  --*-*
+  -*--*
+  *****
+  */
+  for (line = 1; line <= 5; line++) {
+    spaces = "";
+    stars = "";
+    for (space = 1; space < 6 - line; space++) {
+      spaces += " - ";
+    }
+    for (star = 1; star <= line; star++) {
+      if (star == line || line == 5 || star == 1) {
+        stars += " * ";
+      } else {
+        stars += " - ";
+      }
+    }
+    console.log(spaces + stars);
+  }
+  console.log("============");
+
+  /* 
+ 
+  *****
+  -*--*
+  --*-*
+  ---**
+  ----*
+  */
+  for (line = 1; line <= 5; line++) {
+    starzz = "";
+    spaces = "";
+    for (space = 1; space < line; space++) {
+      spaces += " - ";
+    }
+    for (star = 1; star <= 6 - line; star++) {
+      if (star == 1 || line == 1 || star == 6 - line) {
+        starzz += " * ";
+      } else {
+        starzz += " - ";
+      }
+    }
+    console.log(spaces + starzz);
+  }
+  // multiplication table
+  for (i = 1; i <= 12; i++) {
+    for (j = i; j <= 12; j++) {
+      console.log(`${i} X ${j} = ${i * j}`);
+    }
+    console.log("=========");
+  }
+  /* 
+ *********
+ -*******-
+ --*****--
+ ---***---
+ ----*----
+  */
+  for (line = 1; line <= 5; line++) {
+    starz = "";
+    spaces = "";
+    for (star = 1; star <= 10 - 2 * line + 1; star++) {
+      starz += " * ";
+    }
+    for (space = 1; space <= line - 1; space++) {
+      spaces += " - ";
+    }
+    console.log(spaces + starz + spaces);
+  }
+  console.log("=========");
+  for (line = 1; line <= 5; line++) {
+    starz = "";
+    spaces = "";
+    for (star = 1; star <= 10 - 2 * line + 1; star++) {
+      starz += " * ";
+    }
+    for (space = 1; space <= line - 1; space++) {
+      spaces += " - ";
+    }
+    console.log(spaces + starz + spaces);
+  }
+</script>

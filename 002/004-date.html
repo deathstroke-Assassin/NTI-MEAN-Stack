@@ -1,0 +1,70 @@
+<script>
+  var z= new Date("2026-08-29");
+//   console.log(z.getMonth()); // logs date of current machine
+//   console.log(z.getDay());
+//   console.log(z.getDate());
+
+//   console.log(z.getFullYear());
+  // السبت 29 اغسطس 2026
+
+  function dateAr(x) {
+      var x= new Date();
+      ArDayName = ""
+      for (ad=0;ad<= x.getDay() ;ad++) {
+          if (ad ==0 ) {
+              ArDayName = "الاحد"
+          }
+                     if (ad ==1 ) {
+              ArDayName = "الاثنين"
+          }
+                     if (ad ==2 ) {
+              ArDayName = "الثلثاء"
+          }
+                     if (ad ==3 ) {
+              ArDayName = "الاربعاء"
+          }
+                     if (ad ==4 ) {
+              ArDayName = "الخميس"
+          }
+                                 if (ad ==5 ) {
+              ArDayName = "الجمعة"
+          }
+                                 if (ad ==6 ) {
+              ArDayName = "السبت"
+          }
+        }
+// 
+        for (mn=0;mn<= 11 ;mn++) {            
+        if (mn ==0 ) {
+              ArMnName = ""
+          }
+                     if (mn ==1 ) {
+              ArMnName = "يناير"
+          }
+                     if (mn ==2 ) {
+              ArMnName = "فيبراير"
+          }
+                     if (mn ==3 ) {
+              ArMnName = "ماي"
+          }
+                     if (mn ==4 ) {
+              ArMnName = "ابريل"
+          }
+                                 if (mn ==5 ) {
+              ArMnName = "مايو"
+          }
+                                 if (mn ==6 ) {
+              ArMnName = "السبت"
+          }
+                                if (mn ==7 ) {
+              ArMnName = "السبت"
+          }
+                                if (mn ==8 ) {
+              ArMnName = "اغسطس"
+          }
+        }
+      console.log( ArDayName + " " + x.getDate() +" " + ArMnName +" " + x.getFullYear());
+  }
+
+  dateAr() // use an arry next time 
+</script>

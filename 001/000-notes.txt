@@ -1,0 +1,7 @@
+JS 
+variables :
+    number
+    sting
+    boolean
+    date
+    ...
