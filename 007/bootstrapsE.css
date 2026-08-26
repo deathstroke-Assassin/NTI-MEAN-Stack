@@ -1,0 +1,52 @@
+.menu {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.menuHeader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: white;
+    transform: translate(-50%, -50%);
+    font-size: 1.7rem;
+}
+.arrowleft {
+    left: 40%;
+    color: white;
+    height: 40px;
+    top: 79%;
+    width: 40px;
+}
+.arrowright {
+    left: 60%;
+    color: white;
+    top: 79%;
+    width: 40px;
+    height: 40px;
+}
+.indicators {
+    bottom: 10%;
+}
+.btn-cir {
+    width: 30px !important; 
+    height: 30px !important;
+    border-radius: 50%;
+}
+.carousel-indicators {
+ 
+}
+.carousel-indicators button.active {
+    background-color: red !important;
+    border: solid white 3px !important;
+}
+.carousel-indicators button {
+    border: solid white 3px !important;
+
+}
+.carousel-indicators button:hover {
+    border: solid white 3px !important;
+    background-color: red !important;
+
+}

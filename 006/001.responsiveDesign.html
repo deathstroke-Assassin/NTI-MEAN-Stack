@@ -27,10 +27,11 @@
       sideDisplayed=true
       function displaySideMennuCol() {
         if (sideDisplayed) { 
-        document.querySelector(".sideMenucolumn").style.left= "88.9vh"
+        document.querySelector(".sideMenucolumn").style.right= "100vw"
+
         sideDisplayed= false
       } else {
-        document.querySelector(".sideMenucolumn").style.left= "-100vh"
+        document.querySelector(".sideMenucolumn").style.right= "0"
         sideDisplayed= true
 
       }
