@@ -1,0 +1,9 @@
+Customers
+uk usa germany 
+contacttitle : sales
+
+
+SELECT * FROM `customers` WHERE (`customers`.`Country` = 'USA' OR `customers`.`Country` ='UK' OR `customers`.`Country` ='Germany') AND `customers`.`ContactTitle` LIKE '%sales%'; 
+
+SELECT * FROM `customers` WHERE IN ('usa','uk','germany') AND `customers`.`ContactTitle` LIKE '%sales%'; 
+

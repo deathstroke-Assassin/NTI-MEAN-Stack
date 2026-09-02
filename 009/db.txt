@@ -1,0 +1,24 @@
+database : a group of related data.
+
+SQL : structured query langauge
+    - tables & relationships
+         table: feilds & records
+
+    id feild : positive INT, auto-increment, PRIMARY (unique + indexed)
+    string:
+        - varchar: a number of limited characters
+        - text: unknown length
+
+        ==============
+    table create \ edit 
+    add record
+
+    delete records
+
+    drop table (delete table)
+
+    ===========
+    relationship:
+        - one-to-many
+        - one-to-one 
+        - many-to-many = (2 * one-to-many)
