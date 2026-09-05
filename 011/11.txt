@@ -1,0 +1,93 @@
+SELECT
+`suppliers`.`Country` ,COUNT(`suppliers`.`Country`) AS `companysCount`
+FROM
+`suppliers`
+GROUP BY `suppliers`.`Country`
+ORDER BY `companysCount` DESC;
+===============
+
+SELECT
+`suppliers`.`Country` ,COUNT(`suppliers`.`Country`) AS `companysCount`
+FROM
+`suppliers`
+WHERE `suppliers`.`Country` IN('USA','Canada','UK')
+GROUP BY `suppliers`.`Country`
+ORDER BY `companysCount` DESC;
+=========
+SELECT
+CONCAT(`employees`.`Title`, ' - ', `employees`.`FirstName`, ' ', `employees`.`LastName`) AS `fullname`
+FROM
+`employees`
+ORDER BY `employees`.`Title`;
+==================
+SELECT `products`.`ProductName`, `products`.`UnitPrice` FROM `products`
+WHERE  `products`.`UnitPrice` =  (SELECT MAX(`products`.`UnitPrice`) FROM `products`);
+========
+(SELECT AVG(`products`.`UnitPrice`) FROM `products`) 
+/* = 28.86636364 */
+=-=-=-=
+SELECT `products`.`ProductName`, `products`.`UnitPrice` FROM `products`
+WHERE  `products`.`UnitPrice` <=  (SELECT AVG(`products`.`UnitPrice`) FROM `products`) ORDER BY `products`.`UnitPrice` DESC
+=-=-=-=-=
+SELECT `suppliers`.`Country`, COUNT(`suppliers`.`Country`) AS `totalcountry`
+FROM `suppliers`
+
+GROUP BY `suppliers`.`Country` 
+HAVING `totalcountry` >= 3
+
+ORDER BY `totalcountry` DESC;
+
+(having) must be after (group by) and before (order by)
+
+=-=-========-=-=-=-=-=
+ الاربع اخر ساعة امتحان علي mysql
+mcq
+=-=-========-=-=-=-=-=
+
+
+
+
+
+
+
+
+=======================
+
+
+
+
+========================
+
+
+SELECT products.ProductName, products.UnitPrice FROM products
+WHERE  products.UnitPrice =  (SELECT MAX(products.UnitPrice) FROM products);
+
+========================
+سلسة مستشفيات بها 
+اطباء و موظفين و مرضي 
+و مطلوب قاعدة بيانات لنظام يسجل 
+موعد الكشف
+تقرير الكشف
+الادوية الموصي بها بعد الكشف
+=======================
+FIRST user = employee
+employee
+    - add patients with national id
+    - give dates for patient visit
+    - writes logs
+
+second user = ADMIN
+    - employ or deploy employee, or doctors
+    - revise the patient logs 
+
+-=-=-=-=-
+    patient should only be sent a code or a forum 
+
+
+/\/\/\/\ only DATA 
+    is added to database or edited 
+NOT THE ACTION DONE ON IT 
+    by just viewing the data /\/\/\/\
+    
+
+

@@ -7,3 +7,79 @@ SELECT * FROM `customers` WHERE (`customers`.`Country` = 'USA' OR `customers`.`C
 
 SELECT * FROM `customers` WHERE IN ('usa','uk','germany') AND `customers`.`ContactTitle` LIKE '%sales%'; 
 
+SELECT `` FROM `orders`
+SELECT `shippers`.`CompanyName`,`orders`.`OrderDate`, `customers`.`CompanyName`, `orders`.`ShipCountry` FROM `shippers`,`orders`,`customers`
+
+
+
+
+
+SELECT `shippers`.`CompanyName`,`orders`.`OrderDate`, `customers`.`CompanyName`, `orders`.`ShipCountry` FROM `shippers`,`orders`,`customers` WHERE 
+`shippers`.`ShipperID` = `orders`.`ShipVia`
+AND
+`shippers`.`ShipperID` = 3
+AND
+`orders`.`ShipCountry` =
+
+
+ship company name = 3
+order date 
+customer compant name
+where shipcountry is germany
+
+
+============
+SELECT `shippers`.`CompanyName`,`orders`.`OrderDate`, `customers`.`CompanyName`, `orders`.`ShipCountry`,`shippers`.`ShipperID` FROM `shippers`,`orders`,`customers` 
+WHERE 
+`shippers`.`ShipperID` = `orders`.`ShipVia`
+AND
+`shippers`.`ShipperID` = 3
+AND
+`orders`.`ShipCountry` = 'GERMANY'
+AND 
+`orders`.`CustomerID` = `customers`.`CustomerID`;
+=========
+
+get the total of orders
+
+homework
+=============
+
+SELECT * FROM `customers` 
+WHERE 
+`customers`.`CustomerID` = `orders`.`CustomerID`
+AND
+`orders`.`OrderID` = `order details`.`OrderID`
+
+SELECT `customers`.`CompanyName`
+FROM `customers` 
+WHERE 
+`customers`.`CustomerID` = `orders`.`CustomerID`
+AND
+`orders`.`OrderID` = `order details`.`OrderID`
+
+
+=-=-=-=
+SELECT `customers`.`CompanyName`,
+SUM((`order details`.`UnitPrice` * `order details`.`Quantity`)* (1 - `order details`.`Discount`)) AS `Total price`
+FROM `customers`, `order details`,`orders`
+WHERE 
+`customers`.`CustomerID` = `orders`.`CustomerID`
+AND
+`orders`.`OrderID` = `order details`.`OrderID`
+GROUP BY `customers`.`CompanyName`
+ORDER BY `Total price` DESC
+-=-=-=-
+SELECT `customers`.`CustomerID`,
+`customers`.`CompanyName`,
+round(
+SUM((`order details`.`UnitPrice` * `order details`.`Quantity`)* (1 - `order details`.`Discount`))
+   ,1 ) AS `Total price`
+FROM `customers`, `order details`,`orders`
+WHERE 
+`customers`.`CustomerID` = `orders`.`CustomerID`
+AND
+`orders`.`OrderID` = `order details`.`OrderID`
+GROUP BY `customers`.`CompanyName`, `customers`.`CustomerID`
+ORDER BY `Total price` DESC;
+=-=-=-=
