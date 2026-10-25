@@ -1,0 +1,137 @@
+<%- include('../../dashboard/partials/headerLayout.ejs', {
+    pageName: "Dishes Page",
+    pathLevel: "/"
+}) %>
+
+<div class="container-fluid pt-4 px-4">
+
+    <!-- Page Header -->
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h3 class="mb-1">users</h3>
+            <p class="text-muted mb-0">Manage your users</p>
+        </div>
+
+     
+    </div>
+
+
+    <% if(users.length > 0) { %>
+
+        <!-- users Table -->
+        <div class="bg-light rounded p-4">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0 table-dark  table-striped">
+
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">user Name</th>
+                            <th scope="col">Activity</th>
+                            <th scope="col" class="text-center">Operations</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <% users.forEach((oneuser, index) => { %>
+
+                            <tr>
+
+                                <td>
+                                    <%= index + 1 %>
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        <%= oneuser.fullname %>
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    <%= oneuser.isActive %>
+                                </td>
+
+                                <td class="text-center">
+
+                                    <a href="/users/show/<%= oneuser._id %>"
+                                       class="btn btn-sm btn-info me-1">
+                                        <i class="fa fa-eye me-1"></i>
+                                        Details
+                                    </a>
+
+                                    <a href="/users/updateForm/<%= oneuser._id %>"
+                                       class="btn btn-sm btn-warning me-1">
+                                        <i class="fa fa-edit me-1"></i>
+                                        Update
+                                    </a>
+
+                                    <button type="button"
+                                            class="btn btn-sm btn-danger"
+                                            onclick="destroy(this)"
+                                            userID="<%= oneuser._id %>">
+                                        <i class="fa fa-trash me-1"></i>
+                                        Delete
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+                        <% }); %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    <% } else { %>
+
+        <!-- Empty State -->
+        <div class="bg-light rounded p-5 text-center">
+
+            <i class="fa fa-utensils fa-3x text-primary mb-3"></i>
+
+            <h4>No users Yet</h4>
+
+            <p class="text-muted">
+                You haven't created any users yet.
+            </p>
+
+            <a href="/users/createForm" class="btn btn-primary">
+                <i class="fa fa-plus me-2"></i>
+                Create Your First user
+            </a>
+
+        </div>
+
+    <% } %>
+
+</div>
+
+
+<script>
+
+    function destroy(obj) {
+
+        if (confirm("Are You Sure you want to Delete this user?")) {
+
+            let id = obj.getAttribute("userID");
+
+            window.location.replace("/users/destroy/" + id);
+
+        }
+
+    }
+
+</script>
+
+
+<%- include('../../dashboard/partials/footerLayout.ejs', {
+    pathLevel: "/"
+}) %>

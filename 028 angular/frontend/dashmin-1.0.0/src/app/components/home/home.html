@@ -1,0 +1,90 @@
+<!-- Sale & Revenue Start -->
+<div class="container-fluid pt-4 px-4">
+  <div class="row g-4">
+    @for (stat of stats; track stat.label) {
+      <div class="col-sm-6 col-xl-3">
+        <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+          <i [class]="stat.icon + ' fa-3x text-primary'"></i>
+          <div class="ms-3">
+            <p class="mb-2">{{ stat.label }}</p>
+            <h6 class="mb-0">{{ stat.value }}</h6>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>
+<!-- Sale & Revenue End -->
+
+<!-- Sales Chart Start -->
+<div class="container-fluid pt-4 px-4">
+  <div class="row g-4">
+    <div class="col-sm-12 col-xl-6">
+      <div class="bg-light text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+          <h6 class="mb-0">Worldwide Sales</h6>
+          <a href="#">Show All</a>
+        </div>
+        <canvas #salesChart></canvas>
+      </div>
+    </div>
+    <div class="col-sm-12 col-xl-6">
+      <div class="bg-light text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+          <h6 class="mb-0">Sales &amp; Revenue</h6>
+          <a href="#">Show All</a>
+        </div>
+        <canvas #revenueChart></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Sales Chart End -->
+
+<!-- Recent Sales Start -->
+<div class="container-fluid pt-4 px-4">
+  <div class="bg-light text-center rounded p-4">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <h6 class="mb-0">Recent Sales</h6>
+      <a href="#">Show All</a>
+    </div>
+    <div class="table-responsive">
+      <table class="table text-start align-middle table-bordered table-hover mb-0">
+        <thead>
+          <tr class="text-dark">
+            <th scope="col"><input class="form-check-input" type="checkbox" /></th>
+            <th scope="col">Date</th>
+            <th scope="col">Invoice</th>
+            <th scope="col">Customer</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Status</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (sale of sales; track sale.invoice) {
+            <tr>
+              <td><input class="form-check-input" type="checkbox" /></td>
+              <td>{{ sale.date }}</td>
+              <td>{{ sale.invoice }}</td>
+              <td>{{ sale.customer }}</td>
+              <td>{{ sale.amount }}</td>
+              <td>
+                <span
+                  class="badge"
+                  [class.badge-success]="sale.status === 'Paid'"
+                  [class.badge-warning]="sale.status === 'Pending'"
+                  [class.badge-danger]="sale.status === 'Refund'"
+                >
+                  {{ sale.status }}
+                </span>
+              </td>
+              <td><a class="btn btn-sm btn-primary" href="#">Detail</a></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<!-- Recent Sales End -->

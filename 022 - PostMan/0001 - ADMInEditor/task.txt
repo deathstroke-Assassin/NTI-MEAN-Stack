@@ -1,0 +1,4 @@
+create a collection of endpoints 
+1- add category (category name, decs)
+2- update category
+3- 

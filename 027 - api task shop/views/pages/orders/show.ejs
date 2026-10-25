@@ -1,0 +1,42 @@
+<%- include('../../partials/siteHeader', {pageTitle: 'Order details'}) %>
+
+<section>
+    <p><a class="text-decoration-none" href="/orders">← All orders</a></p>
+    <div class="page-heading"><p class="text-uppercase text-secondary small fw-semibold mb-1">Order details</p><h1 class="h2 mb-0"><%= order.customer.customerName %></h1></div>
+    <div class="card card-body shadow-sm border-0 mb-4">
+        <div class="row g-3">
+            <div class="col-md-6"><strong>Phone</strong><div><%= order.customer.customerPhone %></div></div>
+            <div class="col-md-6"><strong>Address</strong><div><%= order.customer.customerAddress %></div></div>
+            <div class="col-md-6"><strong>Received (UTC)</strong><div><%= new Date(order.orderDateTime).toISOString().replace('T', ' ').replace('Z', ' UTC') %></div></div>
+            <div class="col-md-6"><strong>Current status</strong><div><span class="badge bg-secondary"><%= order.currentStatus %></span></div></div>
+        </div>
+    </div>
+    <form method="post" action="/orders/<%= order._id %>/status" class="order-filters card card-body shadow-sm border-0 mb-4">
+        <label class="form-label mb-0">Update status
+            <select class="form-select mt-1" name="status" required>
+                <% statuses.forEach(status => { %>
+                    <option value="<%= status %>" <%= order.currentStatus === status ? 'selected' : '' %>><%= status %></option>
+                <% }) %>
+            </select>
+        </label>
+        <button class="btn btn-primary" type="submit">Update</button>
+    </form>
+    <h2 class="h5">Items</h2>
+    <div class="table-scroll card shadow-sm border-0"><table class="table table-hover align-middle mb-0 orders-table">
+        <thead class="table-light"><tr><th>Product</th><th>Quantity</th><th>Unit price</th><th>Line total</th></tr></thead>
+        <tbody>
+            <% let total = 0; order.products.forEach(item => { const lineTotal = item.quantity * item.piecePrice; total += lineTotal; %>
+                <tr><td><%= item.productName %></td><td><%= item.quantity %></td><td><%= item.piecePrice %></td><td><%= lineTotal.toFixed(2) %></td></tr>
+            <% }) %>
+            <tr><th colspan="3">Total</th><th><%= total.toFixed(2) %></th></tr>
+        </tbody>
+    </table></div>
+    <h2 class="h5 mt-4">Status history</h2>
+    <ol class="list-group list-group-numbered">
+        <% (order.status || []).forEach(entry => { %>
+            <li class="list-group-item"><%= entry.statusName %> — <%= new Date(entry.statusDateTime).toISOString().replace('T', ' ').replace('Z', ' UTC') %></li>
+        <% }) %>
+    </ol>
+</section>
+
+<%- include('../../partials/siteFooter') %>

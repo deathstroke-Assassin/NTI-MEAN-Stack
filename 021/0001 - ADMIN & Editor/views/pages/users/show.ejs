@@ -1,0 +1,138 @@
+<%- include('../../dashboard/partials/headerLayout.ejs', {
+    pageName: "user Details",
+    pathLevel: "/"
+}) %>
+
+<div class="container-fluid pt-4 px-4">
+
+    <% if(oneuser.length > 0) { %>
+
+        <div class="row justify-content-center">
+
+            <div class="col-12 col-lg-8">
+
+                <div class="bg-light rounded p-4">
+
+                    <!-- Header -->
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+
+                        <div>
+                            <h3 class="mb-1">User Details</h3>
+                            <p class="text-muted mb-0">
+                                Information about this user
+                            </p>
+                        </div>
+
+                       
+
+                    </div>
+
+
+                    <!-- user -->
+                    <div class="row align-items-center">
+
+
+                        <!-- user Information -->
+                        <div class="col-md-7">
+
+                            <div class="mb-4">
+
+                                <label class="text-muted small">
+                                    Full Name
+                                </label>
+
+                                <h4 class="mb-0">
+                                    <%= oneuser[0].fullname %>
+                                </h4>
+
+                            </div>
+
+
+                            <div class="mb-4">
+
+                                <label class="text-muted small">
+                                    Username
+                                </label>
+
+                                <h5 class="mb-0">
+                                    <%= oneuser[0].username %>
+                                </h5>
+
+                            </div>
+
+                                <div class="mb-4">
+
+                                <label class="text-muted small">
+                                    Active
+                                </label>
+
+                                <h5 class="mb-0">
+                                    <%= oneuser[0].isActive %>
+                                </h5>
+
+                            </div>
+                                <div class="mb-4">
+
+                                <label class="text-muted small">
+                                    Role in the system
+                                </label>
+
+                                <h5 class="mb-0">
+                                    <%= oneuser[0].userRole %>
+                                </h5>
+
+                            </div>
+
+                            <div class="d-flex gap-2">
+
+                                <a href="/users"
+                                   class="btn btn-secondary">
+                                    <i class="fa fa-arrow-left me-2"></i>
+                                    Back
+                                </a>
+
+                                <a href="/users/updateForm/<%= oneuser[0]._id %>"
+                                   class="btn btn-warning">
+                                    <i class="fa fa-edit me-2"></i>
+                                    Update
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    <% } else { %>
+
+        <!-- No user -->
+        <div class="bg-light rounded p-5 text-center">
+
+            <i class="fa fa-exclamation-circle fa-3x text-warning mb-3"></i>
+
+            <h4>user Not Found</h4>
+
+            <p class="text-muted">
+                No user with this information.
+            </p>
+
+            <a href="/users" class="btn btn-primary">
+                <i class="fa fa-arrow-left me-2"></i>
+                Back to users
+            </a>
+
+        </div>
+
+    <% } %>
+
+</div>
+
+<%- include('../../dashboard/partials/footerLayout.ejs', {
+    pathLevel: "/"
+}) %>

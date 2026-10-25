@@ -1,0 +1,11 @@
+a hotel with similar 100 rooms. reservation is by a day.
+employe: reserve for a client one room with  payment in one currency, for specific period (of days). and can't reserve occupied room
+
+1- user
+
+2- permissions of the user
+
+3- how the user does each permissions
+
+4- the rooms collection should be automatically seeded or created to reach 100 rooms
+

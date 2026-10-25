@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Available Rooms | Golden Leaf Hotel</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        :root {
+            --coffee-dark: #38251d;
+            --coffee: #6f4e37;
+            --coffee-light: #a67b5b;
+            --caramel: #c49a6c;
+            --cream: #f8f3eb;
+            --cream-dark: #eee3d5;
+            --white: #fffdf9;
+            --muted: #8b7a6d;
+        }
+
+        body {
+            background: var(--cream);
+            color: var(--coffee-dark);
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            background: var(--coffee-dark);
+            padding: 16px 0;
+        }
+
+        .navbar-brand {
+            color: var(--cream);
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .navbar-brand:hover {
+            color: var(--caramel);
+        }
+
+        .navbar-brand i {
+            color: var(--caramel);
+            margin-right: 8px;
+        }
+
+        .navbar .nav-link {
+            color: #dfcdbb;
+        }
+
+        .navbar .nav-link:hover {
+            color: white;
+        }
+
+        .hero {
+            background: linear-gradient(120deg, #38251d, #76563e);
+            color: var(--cream);
+            padding: 45px 0 65px;
+            border-radius: 0 0 25px 25px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+        }
+
+        .hero p {
+            color: #dfcdbb;
+        }
+
+        .hero-icon {
+            font-size: 5rem;
+            color: var(--caramel);
+        }
+
+        .main-content {
+            margin-top: -28px;
+            position: relative;
+        }
+
+        .search-panel {
+            background: var(--white);
+            border: 1px solid var(--cream-dark);
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 8px 25px rgba(56, 37, 29, 0.06);
+        }
+
+        .form-label {
+            color: var(--coffee-dark);
+            font-weight: 600;
+        }
+
+        .form-control {
+            border-color: var(--cream-dark);
+            border-radius: 10px;
+            padding: 12px;
+            color: var(--coffee-dark);
+        }
+
+        .form-control:focus {
+            border-color: var(--caramel);
+            box-shadow: 0 0 0 0.2rem rgba(196, 154, 108, 0.2);
+        }
+
+        .btn-coffee {
+            background: var(--coffee);
+            color: white;
+            border: 1px solid var(--coffee);
+            border-radius: 10px;
+            padding: 12px 20px;
+            font-weight: 600;
+        }
+
+        .btn-coffee:hover {
+            background: var(--coffee-dark);
+            color: white;
+        }
+
+        .section-title {
+            font-weight: 700;
+        }
+
+        .result-count {
+            background: var(--cream-dark);
+            color: var(--coffee);
+            padding: 7px 12px;
+            border-radius: 9px;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .room-card {
+            background: var(--white);
+            border: 1px solid var(--cream-dark);
+            border-radius: 16px;
+            overflow: hidden;
+            height: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .room-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(56, 37, 29, 0.1);
+        }
+
+        .room-cover {
+            height: 130px;
+            background: linear-gradient(135deg, #e8d6c1, #c49a6c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .room-cover i {
+            font-size: 3.8rem;
+            color: var(--coffee);
+        }
+
+        .level-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: var(--white);
+            color: var(--coffee-dark);
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .room-card-body {
+            padding: 20px;
+        }
+
+        .room-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .room-subtitle {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .room-divider {
+            border-color: var(--cream-dark);
+            opacity: 1;
+        }
+
+        .room-info {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .room-info i {
+            color: var(--coffee-light);
+            margin-right: 6px;
+        }
+
+        .available-badge {
+            background: #f1e5d5;
+            color: var(--coffee);
+            border-radius: 7px;
+            padding: 6px 9px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .empty-state {
+            background: var(--white);
+            border: 1px dashed var(--caramel);
+            border-radius: 16px;
+            padding: 55px 20px;
+            text-align: center;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--caramel);
+        }
+
+        .empty-state h3 {
+            font-weight: 700;
+            margin-top: 18px;
+        }
+
+        .help-text {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        footer {
+            margin-top: 60px;
+            padding: 24px 0;
+            background: var(--coffee-dark);
+            color: #dfcdbb;
+        }
+
+        @media (max-width: 576px) {
+            .search-panel {
+                padding: 20px;
+            }
+
+            .hero-icon {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand" href="/rooms">
+            <i class="bi bi-cup-hot-fill"></i>
+            Golden Leaf Hotel
+        </a>
+
+        <div class="ms-auto d-flex gap-3">
+            <a class="nav-link" href="/rooms">
+                <i class="bi bi-grid me-1"></i>
+                Rooms
+            </a>
+            <a class="nav-link" href="/reservations">
+                <i class="bi bi-calendar-check me-1"></i>
+                Reservations
+            </a>
+        </div>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <p class="text-uppercase small fw-bold mb-2">
+                    Hotel Reservations
+                </p>
+
+                <h1>Find Your Room</h1>
+
+                <p class="mb-0">
+                    Choose your stay dates to find rooms available
+                    for the entire period.
+                </p>
+            </div>
+
+            <div class="col-md-4 text-end">
+                <i class="bi bi-calendar2-week hero-icon"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<main class="container main-content pb-4">
+
+    <!-- Date search form -->
+
+    <section class="search-panel mb-5">
+
+        <h2 class="h4 section-title mb-2">
+            <i class="bi bi-calendar-range me-2"
+               style="color: var(--coffee-light);"></i>
+            When are you staying?
+        </h2>
+
+        <p class="help-text mb-4">
+            Select check-in and check-out dates to check room availability.
+        </p>
+
+        <form action="/reservations" method="GET" id="availabilityForm">
+
+            <div class="row g-3 align-items-end">
+
+                <div class="col-md-5">
+                    <label for="start" class="form-label">
+                        <i class="bi bi-calendar-plus me-1"></i>
+                        Check-in
+                    </label>
+
+                    <input type="date"
+                           class="form-control"
+                           id="start"
+                           name="start"
+                           value="<%= start || '' %>"
+                           required>
+                </div>
+
+                <div class="col-md-5">
+                    <label for="end" class="form-label">
+                        <i class="bi bi-calendar-minus me-1"></i>
+                        Check-out
+                    </label>
+
+                    <input type="date"
+                           class="form-control"
+                           id="end"
+                           name="end"
+                           value="<%= end || '' %>"
+                           required>
+                </div>
+
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-coffee w-100">
+                        <i class="bi bi-search me-1"></i>
+                        Search
+                    </button>
+                </div>
+
+            </div>
+
+            <div id="dateError"
+                 class="text-danger small mt-3"
+                 role="alert"></div>
+
+        </form>
+
+    </section>
+
+
+    <!-- Search results -->
+
+    <% if (start && end) { %>
+
+        <div class="d-flex flex-column flex-md-row
+                    justify-content-between align-items-md-center gap-3 mb-4">
+
+            <div>
+                <h2 class="section-title mb-1">Available Rooms</h2>
+
+                <p class="text-secondary mb-0">
+                    <i class="bi bi-calendar-event me-1"></i>
+                    <%= start %> &rarr; <%= end %>
+                </p>
+            </div>
+
+            <span class="result-count">
+                <%= rooms.length %> room(s) found
+            </span>
+
+        </div>
+
+        <% if (rooms.length > 0) { %>
+
+            <div class="row g-4">
+
+                <% rooms.forEach(room => { %>
+
+                    <div class="col-sm-6 col-lg-4 col-xl-3">
+
+                        <article class="room-card">
+
+                            <div class="room-cover">
+
+                                <span class="level-badge">
+                                    LEVEL <%= room.roomName.charAt(0) %>
+                                </span>
+
+                                <i class="bi bi-door-closed"></i>
+
+                            </div>
+
+                            <div class="room-card-body">
+
+                                <div class="d-flex justify-content-between
+                                            align-items-start gap-2 mb-3">
+
+                                    <div>
+                                        <h3 class="room-name mb-1">
+                                            <%= room.roomName %>
+                                        </h3>
+
+                                        <p class="room-subtitle mb-0">
+                                            Hotel accommodation
+                                        </p>
+                                    </div>
+
+                                    <span class="available-badge">
+                                        Available
+                                    </span>
+
+                                </div>
+
+                                <hr class="room-divider">
+
+                                <div class="room-info mb-3">
+                                    <i class="bi bi-calendar-check"></i>
+                                    Available for your selected dates
+                                </div>
+
+                                <a href="/reservations/create?roomId=<%= room._id %>&start=<%= encodeURIComponent(start) %>&end=<%= encodeURIComponent(end) %>"
+                                   class="btn btn-coffee w-100">
+
+                                    Select Room
+                                    <i class="bi bi-arrow-right ms-2"></i>
+
+                                </a>
+
+                            </div>
+
+                        </article>
+
+                    </div>
+
+                <% }); %>
+
+            </div>
+
+        <% } else { %>
+
+            <div class="empty-state">
+                <i class="bi bi-calendar-x"></i>
+
+                <h3>No rooms available</h3>
+
+                <p class="text-secondary mb-0">
+                    No rooms are available for the selected dates.
+                    Try choosing another period.
+                </p>
+            </div>
+
+        <% } %>
+
+    <% } else { %>
+
+        <div class="empty-state">
+            <i class="bi bi-calendar2-check"></i>
+
+            <h3>Ready to find a room?</h3>
+
+            <p class="text-secondary mb-0">
+                Select your check-in and check-out dates above
+                to see available rooms.
+            </p>
+        </div>
+
+    <% } %>
+
+</main>
+
+<footer>
+    <div class="container d-flex flex-column flex-md-row
+                justify-content-between align-items-center gap-2">
+
+        <span>
+            <i class="bi bi-cup-hot-fill me-2"></i>
+            Golden Leaf Hotel Management
+        </span>
+
+        <span>
+            &copy; <%= new Date().getFullYear() %>
+        </span>
+    </div>
+</footer>
+
+<script>
+    const form = document.getElementById("availabilityForm");
+    const startInput = document.getElementById("start");
+    const endInput = document.getElementById("end");
+    const dateError = document.getElementById("dateError");
+
+    function updateMinimumCheckout() {
+        if (startInput.value) {
+            endInput.min = startInput.value;
+        } else {
+            endInput.removeAttribute("min");
+        }
+    }
+
+    startInput.addEventListener("change", updateMinimumCheckout);
+
+    form.addEventListener("submit", function (event) {
+        dateError.textContent = "";
+
+        if (!startInput.value || !endInput.value) {
+            event.preventDefault();
+            dateError.textContent = "Please select both dates.";
+            return;
+        }
+
+        if (endInput.value <= startInput.value) {
+            event.preventDefault();
+            dateError.textContent =
+                "Check-out must be after check-in.";
+        }
+    });
+
+    updateMinimumCheckout();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

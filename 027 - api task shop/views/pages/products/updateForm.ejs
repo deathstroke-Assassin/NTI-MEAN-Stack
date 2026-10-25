@@ -1,0 +1,37 @@
+<%- include('../../partials/siteHeader', {pageTitle: 'Edit product'}) %>
+
+<section>
+    <div class="page-heading"><p class="text-uppercase text-secondary small fw-semibold mb-1">Product catalog</p><h1 class="h2 mb-0">Edit product</h1></div>
+    <form class="card card-body shadow-sm border-0" style="max-width: 760px" action="../update" method="post" enctype="multipart/form-data">
+        <div class="row g-3">
+            <div class="col-md-6"><label class="form-label" for="name">Product name</label><input class="form-control" type="text" name="name" id="name" value="<%= oneProduct[0].name %>" required></div>
+            <div class="col-md-6"><label class="form-label" for="price">Price</label><input class="form-control" type="number" name="price" id="price" min="0" step="0.01" value="<%= oneProduct[0].price %>" required></div>
+            <div class="col-md-6"><label class="form-label" for="categoryId">Category</label>
+                <select class="form-select" name="categoryId" id="categoryId" required>
+                    <% categories.forEach(category => { %>
+                        <option value="<%= category._id %>" <%= category._id.toString() == oneProduct[0].categoryId.toString() ? 'selected' : '' %>><%= category.name %></option>
+                    <% }) %>
+                </select>
+            </div>
+            <div class="col-md-6"><label class="form-label" for="photo">Photo</label><input class="form-control" type="file" name="photo" id="photo" accept="image/*" onchange="photoPreviewFn(this);"></div>
+            <div class="col-12"><img src="/img/uploades/<%= oneProduct[0].photo %>" id="photoPreview" alt="Product photo preview" class="product-preview <%= oneProduct[0].photo ? '' : 'd-none' %>"></div>
+            <input type="hidden" name="id" value="<%= oneProduct[0]._id %>">
+            <div class="col-12 d-flex gap-2"><button class="btn btn-primary" type="submit">Save changes</button><a class="btn btn-outline-secondary" href="/products">Cancel</a></div>
+        </div>
+    </form>
+</section>
+<script>
+    function photoPreviewFn(input) {
+        const file = input.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const preview = document.getElementById('photoPreview');
+                preview.src = reader.result;
+                preview.classList.remove('d-none');
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+<%- include('../../partials/siteFooter') %>

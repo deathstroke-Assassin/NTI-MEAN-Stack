@@ -1,0 +1,205 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  }
+
+body {
+font-family: 'Poppins', sans-serif;
+background-color: #f8f3ec;
+color: #382016;
+}
+
+/* Header */
+
+.header {
+width: 100%;
+min-height: 90px;
+padding: 0 8%;
+display: flex;
+align-items: center;
+justify-content: space-between;
+background-color: #fffaf3;
+border-bottom: 1px solid #eadfd2;
+}
+
+/* Logo */
+
+.logo {
+font-family: 'Playfair Display', serif;
+font-size: 36px;
+font-weight: 700;
+text-decoration: none;
+color: #48291e;
+letter-spacing: -2px;
+}
+
+.logo span {
+color: #c17a45;
+}
+
+/* Navigation */
+
+.navbar {
+display: flex;
+align-items: center;
+gap: 35px;
+}
+
+.navbar a {
+text-decoration: none;
+color: #59473c;
+font-size: 13px;
+font-weight: 500;
+transition: color 0.3s ease;
+}
+
+.navbar a:hover {
+color: #b56d3d;
+}
+
+/* Header actions */
+
+.header-actions {
+display: flex;
+align-items: center;
+gap: 20px;
+}
+
+.shop-btn {
+text-decoration: none;
+color: white;
+background-color: #48291e;
+padding: 13px 23px;
+border-radius: 30px;
+font-size: 12px;
+font-weight: 500;
+transition: background-color 0.3s ease;
+}
+
+.shop-btn:hover {
+background-color: #a65f36;
+}
+
+.menu-btn {
+display: none;
+border: none;
+background: none;
+font-size: 25px;
+color: #48291e;
+cursor: pointer;
+}
+
+/* Hero section */
+
+.hero {
+min-height: 600px;
+padding: 100px 8%;
+display: flex;
+align-items: center;
+background:
+radial-gradient(ellipse at 85% 50%, #ead3b9 0%, transparent 40%),
+linear-gradient(110deg, #f8f3ec 55%, #efe0ce 100%);
+}
+
+.hero-content {
+max-width: 550px;
+}
+
+.subtitle {
+font-size: 11px;
+letter-spacing: 4px;
+font-weight: 600;
+color: #a7653d;
+margin-bottom: 25px;
+}
+
+.hero h1 {
+font-family: 'Playfair Display', serif;
+font-size: clamp(48px, 6vw, 76px);
+line-height: 1.12;
+font-weight: 600;
+margin-bottom: 25px;
+}
+
+.hero h1 span {
+color: #a7653d;
+font-style: italic;
+}
+
+.description {
+max-width: 420px;
+font-size: 14px;
+line-height: 1.9;
+color: #78675b;
+margin-bottom: 35px;
+}
+
+.hero-btn {
+display: inline-block;
+padding: 16px 28px;
+background-color: #48291e;
+color: #fffaf3;
+text-decoration: none;
+font-size: 12px;
+border-radius: 30px;
+transition: all 0.3s ease;
+}
+
+.hero-btn:hover {
+background-color: #a7653d;
+transform: translateY(-2px);
+}
+
+/* Responsive design */
+
+@media (max-width: 900px) {
+.header {
+padding: 0 5%;
+}
+
+
+.navbar {
+    gap: 18px;
+}
+
+.navbar a {
+    font-size: 12px;
+}
+
+.hero {
+    padding: 80px 5%;
+}
+
+
+}
+
+@media (max-width: 650px) {
+.header {
+min-height: 75px;
+}
+
+
+.logo {
+    font-size: 31px;
+}
+
+.navbar {
+    display: none;
+}
+
+.shop-btn {
+    padding: 11px 16px;
+    font-size: 11px;
+}
+
+.menu-btn {
+    display: block;
+}
+
+.hero {
+    min-height: 500px;
+    padding: 70px 7%;
+}
+
+}

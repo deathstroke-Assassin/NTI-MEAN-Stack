@@ -1,0 +1,25 @@
+:host {
+  display: block;
+}
+
+/* This bootstrap build does not ship the badge color variants, so they are
+   defined here for the status column of the recent sales table. */
+.badge {
+  background-color: #8fbf35;
+  color: #fff;
+}
+
+.badge-success {
+  background-color: #198754;
+  color: #fff;
+}
+
+.badge-warning {
+  background-color: #ffc107;
+  color: #191c24;
+}
+
+.badge-danger {
+  background-color: #dc3545;
+  color: #fff;
+}

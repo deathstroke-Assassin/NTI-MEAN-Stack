@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        <%= room[0].roomName %> | Golden Leaf Hotel
+    </title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        :root {
+            --coffee-dark: #38251d;
+            --coffee: #6f4e37;
+            --coffee-light: #a67b5b;
+            --caramel: #c49a6c;
+            --cream: #f8f3eb;
+            --cream-dark: #eee3d5;
+            --white: #fffdf9;
+            --muted: #8b7a6d;
+        }
+
+        body {
+            background: var(--cream);
+            color: var(--coffee-dark);
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            background: var(--coffee-dark);
+            padding: 16px 0;
+        }
+
+        .navbar-brand {
+            color: var(--cream);
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .navbar-brand:hover {
+            color: var(--caramel);
+        }
+
+        .navbar-brand i {
+            color: var(--caramel);
+            margin-right: 8px;
+        }
+
+        .navbar .nav-link {
+            color: #dfcdbb;
+        }
+
+        .navbar .nav-link:hover {
+            color: white;
+        }
+
+        .hero {
+            background: linear-gradient(120deg, #38251d, #76563e);
+            color: var(--cream);
+            padding: 40px 0 55px;
+            border-radius: 0 0 25px 25px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+        }
+
+        .hero p {
+            color: #dfcdbb;
+        }
+
+        .hero-icon {
+            font-size: 5rem;
+            color: var(--caramel);
+        }
+
+        .main-content {
+            margin-top: -22px;
+            position: relative;
+        }
+
+        .panel {
+            background: var(--white);
+            border: 1px solid var(--cream-dark);
+            border-radius: 16px;
+            padding: 24px;
+            height: 100%;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .stat-icon {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--cream);
+            color: var(--coffee);
+            border-radius: 12px;
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-weight: 700;
+        }
+
+        .room-information {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .room-icon {
+            width: 70px;
+            height: 70px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #e8d6c1, #c49a6c);
+            color: var(--coffee);
+            font-size: 2.4rem;
+        }
+
+        .room-description {
+            color: var(--muted);
+        }
+
+        .status-badge {
+            display: inline-block;
+            border-radius: 7px;
+            padding: 6px 10px;
+            font-size: 0.76rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .status-pending {
+            background: #f4e6c8;
+            color: #765523;
+        }
+
+        .status-current {
+            background: #e9d5c1;
+            color: #69452c;
+        }
+
+        .status-done {
+            background: #e7ddd4;
+            color: #574237;
+        }
+
+        .status-canceled {
+            background: #f2d9cb;
+            color: #8a4027;
+        }
+
+        .status-cancel {
+            background: #f4d9cb;
+            color: #bc4027;
+
+        }
+
+        .status-unavailable {
+            background: #e6dcd7;
+            color: #594139;
+        }
+
+        .status-default {
+            background: var(--cream-dark);
+            color: var(--coffee-dark);
+        }
+
+        .table {
+            --bs-table-bg: transparent;
+            --bs-table-color: var(--coffee-dark);
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            background: var(--cream);
+            color: var(--coffee);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            white-space: nowrap;
+            padding: 15px;
+            border-bottom: 1px solid var(--cream-dark);
+        }
+
+        .table tbody td {
+            padding: 16px 15px;
+            vertical-align: middle;
+            border-color: var(--cream-dark);
+        }
+
+        .table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .table-responsive {
+            border-radius: 12px;
+        }
+
+        .btn-coffee {
+            background: var(--coffee);
+            color: white;
+            border: 1px solid var(--coffee);
+            border-radius: 9px;
+            padding: 10px 17px;
+            font-weight: 600;
+        }
+
+        .btn-coffee:hover {
+            background: var(--coffee-dark);
+            color: white;
+        }
+
+        .btn-outline-coffee {
+            color: var(--coffee);
+            border: 1px solid var(--coffee-light);
+            border-radius: 9px;
+            font-weight: 600;
+        }
+
+        .btn-outline-coffee:hover {
+            background: var(--coffee);
+            color: white;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 45px 20px;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--caramel);
+        }
+
+        footer {
+            margin-top: 60px;
+            padding: 24px 0;
+            background: var(--coffee-dark);
+            color: #dfcdbb;
+        }
+
+        @media (max-width: 576px) {
+            .panel {
+                padding: 17px;
+            }
+
+            .hero-icon {
+                display: none;
+            }
+        }
+        /* Reservation table improvements */
+.table {
+    min-width: 900px;
+}
+
+.table thead th {
+    padding: 18px 16px;
+    vertical-align: middle;
+}
+
+.table tbody td {
+    padding: 18px 16px;
+    vertical-align: middle;
+}
+
+.client-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+}
+
+.client-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: var(--cream);
+    color: var(--coffee-light);
+}
+
+.date-value {
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.payment-value {
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.payment-value small {
+    display: block;
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 500;
+}
+
+.reservation-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 7px;
+    min-width: 240px;
+}
+
+.reservation-actions form {
+    margin: 0;
+}
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 11px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.action-btn:hover {
+    transform: translateY(-1px);
+}
+
+.action-current {
+    background: #e9d5c1;
+    color: #69452c;
+}
+
+.action-current:hover {
+    background: #dfc2a6;
+}
+
+.action-done {
+    background: #e7ddd4;
+    color: #574237;
+}
+
+.action-done:hover {
+    background: #d8c9bc;
+}
+
+.action-cancel {
+    background: #f2d9cb;
+    color: #8a4027;
+}
+
+.action-cancel:hover {
+    background: #eac5b2;
+}
+
+@media (max-width: 768px) {
+    .reservation-actions {
+        justify-content: flex-start;
+    }
+}
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+
+            <a class="navbar-brand" href="/rooms">
+                <i class="bi bi-cup-hot-fill"></i>
+                Golden Leaf Hotel
+            </a>
+
+            <div class="ms-auto">
+                <a href="/rooms" class="nav-link">
+                    <i class="bi bi-arrow-left me-1"></i>
+                    All Rooms
+                </a>
+            </div>
+
+        </div>
+    </nav>
+
+    <% const roomReservations=Array.isArray(room[0].reservations) ? room[0].reservations : []; const
+        countStatus=status=>
+        roomReservations.filter(reservation =>
+        String(reservation.status || "").toLowerCase() === status
+        ).length;
+
+        const level = String(room[0].roomName || "").charAt(0).toUpperCase();
+
+        const isUnavailable =
+        room[0].isAvailableForBooking === false ||
+        roomReservations.some(
+        reservation => reservation.status === "NOT AVAILABLE"
+        );
+
+        const currentCount = countStatus("current");
+        const pendingCount = countStatus("pending");
+        const doneCount = countStatus("done");
+        const canceledCount = countStatus("canceled");
+        %>
+
+        <section class="hero">
+            <div class="container">
+
+                <div class="row align-items-center">
+
+                    <div class="col-md-8">
+
+                        <p class="text-uppercase small fw-bold mb-2">
+                            Room Details
+                        </p>
+
+                        <h1>
+                            <%= room[0].roomName %>
+                        </h1>
+
+                        <p class="mb-0">
+                            Level <%= level %> &middot;
+                                Reservation history and room information
+                        </p>
+
+                    </div>
+
+                    <div class="col-md-4 text-end">
+                        <i class="bi bi-door-open hero-icon"></i>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <main class="container main-content pb-4">
+
+            <!-- Room information -->
+
+            <section class="panel mb-4">
+
+                <div class="d-flex flex-column flex-md-row
+                    justify-content-between align-items-md-center gap-3">
+
+                    <div class="room-information">
+
+                        <div class="room-icon">
+                            <i class="bi bi-house-door"></i>
+                        </div>
+
+                        <div>
+                            <h2 class="h4 fw-bold mb-1">
+                                <%= room[0].roomName %>
+                            </h2>
+
+                            <div class="room-description">
+                                Hotel room · Level <%= level %>
+                            </div>
+
+                            <div class="mt-2">
+
+                                <% if (isUnavailable) { %>
+
+                                    <span class="status-badge status-unavailable">
+                                        Unavailable
+                                    </span>
+
+                                    <% } else if (currentCount> 0 || pendingCount > 0) { %>
+
+                                        <span class="status-badge status-current">
+                                            Has Active Reservations
+                                        </span>
+
+                                        <% } else { %>
+
+                                            <span class="status-badge status-done">
+                                                No Active Reservations
+                                            </span>
+
+                                            <% } %>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <a href="/rooms" class="btn btn-outline-coffee">
+                        <i class="bi bi-arrow-left me-2"></i>
+                        Back to Rooms
+                    </a>
+
+                </div>
+
+            </section>
+
+
+            <!-- Reservation statistics -->
+
+            <div class="row g-3 mb-5">
+
+                <div class="col-6 col-lg-3">
+                    <div class="panel">
+                        <div class="stat-icon">
+                            <i class="bi bi-calendar-week"></i>
+                        </div>
+
+                        <div class="stat-number">
+                            <%= roomReservations.length %>
+                        </div>
+
+                        <div class="stat-label">Total Reservations</div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-lg-3">
+                    <div class="panel">
+                        <div class="stat-icon">
+                            <i class="bi bi-hourglass-split"></i>
+                        </div>
+
+                        <div class="stat-number">
+                            <%= pendingCount %>
+                        </div>
+                        <div class="stat-label">Pending</div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-lg-3">
+                    <div class="panel">
+                        <div class="stat-icon">
+                            <i class="bi bi-person-check"></i>
+                        </div>
+
+                        <div class="stat-number">
+                            <%= currentCount %>
+                        </div>
+                        <div class="stat-label">Current Stays</div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-lg-3">
+                    <div class="panel">
+                        <div class="stat-icon">
+                            <i class="bi bi-check2-circle"></i>
+                        </div>
+
+                        <div class="stat-number">
+                            <%= doneCount %>
+                        </div>
+                        <div class="stat-label">Completed</div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- Reservation history -->
+
+            <section class="panel">
+
+                <div class="d-flex flex-column flex-md-row
+                    justify-content-between align-items-md-center gap-2 mb-4">
+
+                    <div>
+                        <h2 class="section-title h4 mb-1">
+                            Reservation History
+                        </h2>
+
+                        <p class="text-secondary mb-0">
+                            All reservations recorded for this room[0].
+                        </p>
+                    </div>
+
+                    <span class="text-secondary small">
+                        <%= canceledCount %> canceled
+                    </span>
+
+                </div>
+
+                <% if (roomReservations.length> 0) { %>
+
+                    <div class="table-responsive">
+
+                        <table class="table">
+
+                            <thead>
+                                <tr>
+                                    <th>Client</th>
+                                    <th>Check-in</th>
+                                    <th>Check-out</th>
+                                    <th>Payment</th>
+                                    <th>Status</th>
+                                    <th class="text-end">Actions</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                <% roomReservations.forEach((reservation, index)=> {
+
+                                    const status = String(
+                                    reservation.status || "unknown"
+                                    ).toLowerCase();
+
+                                    const statusClass = {
+                                    pending: "status-pending",
+                                    current: "status-current",
+                                    done: "status-done",
+                                    canceled: "status-canceled",
+                                    "not available": "status-unavailable"
+                                    }[status] || "status-default";
+
+                                    %>
+
+<tr>
+    <td>
+        <div class="client-cell">
+            <span class="client-icon">
+                <i class="bi bi-person"></i>
+            </span>
+
+            <span class="fw-semibold">
+                <%= reservation.clientName || "Unknown Client" %>
+            </span>
+        </div>
+    </td>
+
+    <td>
+        <span class="date-value">
+            <%= reservation.start || "—" %>
+        </span>
+    </td>
+
+    <td>
+        <span class="date-value">
+            <%= reservation.end || "—" %>
+        </span>
+    </td>
+
+    <td class="fw-semibold payment-value">
+        <%= reservation.payment != null
+            ? Number(reservation.payment).toLocaleString("en-US")
+            : "—" %>
+        <small>EGP</small>
+    </td>
+
+    <td>
+        <span class="status-badge <%= statusClass %>">
+            <%= status %>
+        </span>
+    </td>
+
+    <td>
+        <div class="reservation-actions">
+
+            <% if (status === "pending") { %>
+                <form
+                    action="/rooms/<%= room[0]._id %>/reservations/<%= index %>/status"
+                    method="POST"
+                >
+                    <input type="hidden" name="status" value="current">
+
+                    <button type="submit" class="action-btn action-current">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        Check in
+                    </button>
+                </form>
+            <% } %>
+
+            <% if (status === "pending" || status === "current") { %>
+                <form
+                    action="/rooms/<%= room[0]._id %>/reservations/<%= index %>/status"
+                    method="POST"
+                >
+                    <input type="hidden" name="status" value="done">
+
+                    <button type="submit" class="action-btn action-done">
+                        <i class="bi bi-check2-circle"></i>
+                        Complete
+                    </button>
+                </form>
+
+                <form
+                    action="/rooms/<%= room[0]._id %>/reservations/<%= index %>/status"
+                    method="POST"
+                    onsubmit="return confirm('Cancel this reservation?');"
+                >
+                    <input type="hidden" name="status" value="canceled">
+
+                    <button type="submit" class="action-btn action-cancel">
+                        <i class="bi bi-x-circle"></i>
+                        Cancel
+                    </button>
+                </form>
+            <% } %>
+
+            <% if (status === "done" || status === "canceled") { %>
+                <span class="text-secondary small">
+                    <i class="bi bi-lock me-1"></i>
+                    No actions available
+                </span>
+            <% } %>
+
+        </div>
+    </td>
+</tr>
+                                    <% }); %>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                    <% } else { %>
+
+                        <div class="empty-state">
+
+                            <i class="bi bi-calendar2-x"></i>
+
+                            <h3 class="h5 fw-bold mt-3">
+                                No reservations yet
+                            </h3>
+
+                            <p class="text-secondary mb-4">
+                                This room has no reservation history.
+                            </p>
+
+                            <a href="/rooms" class="btn btn-coffee">
+                                Return to Rooms
+                            </a>
+
+                        </div>
+
+                        <% } %>
+
+            </section>
+
+        </main>
+
+        <footer>
+            <div class="container d-flex flex-column flex-md-row
+                justify-content-between align-items-center gap-2">
+
+                <span>
+                    <i class="bi bi-cup-hot-fill me-2"></i>
+                    Golden Leaf Hotel Management
+                </span>
+
+                <span>
+                    &copy; <%= new Date().getFullYear() %>
+                </span>
+
+            </div>
+        </footer>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

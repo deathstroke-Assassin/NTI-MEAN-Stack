@@ -1,0 +1,19 @@
+/* Global styles for the Dashmin app.
+   The template stylesheets (css/bootstrap.min.css and css/style.css) are
+   registered in angular.json so they are bundled before this file. */
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Cairo', sans-serif;
+  background: #ffffff;
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+}

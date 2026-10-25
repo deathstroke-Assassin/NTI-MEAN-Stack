@@ -1,0 +1,118 @@
+<%- include('../../dashboard/partials/headerLayout.ejs', { pageName: "Edit user" , pathLevel: "/" }) %>
+
+    <div class="container-fluid pt-4 px-4">
+
+        <div class="row justify-content-center">
+
+            <div class="col-12 col-lg-9">
+
+                <div class="bg-light rounded p-4">
+
+                    <!-- Header -->
+                    <div class="mb-4">
+                        <h3 class="mb-1">Edit user</h3>
+                        <p class="text-muted mb-0">
+                            Update the user information or replace its photo.
+                        </p>
+                    </div>
+
+                    <div class="row align-items-center">
+
+                        <!-- Form -->
+                        <div class="col-md-6">
+
+                            <form action="../update" method="post">
+
+                                <!-- user Name -->
+                                <div class="mb-3">
+                                    <label for="userName" class="form-label">
+                                        user Name
+                                    </label>
+
+                                    <input type="text" name="userName" id="userName" class="form-control"
+                                        value="<%= oneuser[0].username %>" required>
+                                </div>
+
+
+                                <!-- full name -->
+                                <div class="mb-3">
+                                    <label for="full name" class="form-label">
+                                        full name
+                                    </label>
+
+                                    <input type="text" name="fullname" id="fullname" class="form-control"
+                                        value="<%= oneuser[0].fullname %>" required>
+                                </div>
+
+                                <!-- new password -->
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">
+                                        New password
+                                    </label>
+
+                                    <input type="text" name="password" id="password" class="form-control"
+                                        placeholder="Enter new password">
+                                </div>
+
+                                <!-- Role -->
+                                <div class="mb-3">
+                                    <label for="userRole" class="form-label">
+                                        Role
+                                    </label>
+
+                                    <input type="text" name="userRole" id="userRole" class="form-control"
+                                        value="<%= oneuser[0].userRole %>" required>
+                                </div>
+                                <!-- isActive -->
+                                <div class="mb-3">
+                                    <label for="isActive" class="form-label">
+                                        Is Active
+                                    </label>
+
+                                    <select name="isActive" id="isActive" class="form-select">
+                                        <option value="true" <%=oneuser[0].isActive==true ? "selected" : "" %>>
+                                            True
+                                        </option>
+
+                                        <option value="false" <%=oneuser[0].isActive==false ? "selected" : "" %>>
+                                            False
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <!-- Hidden ID -->
+                                <input type="hidden" name="id" value="<%= oneuser[0]._id %>">
+
+
+                                <!-- Buttons -->
+                                <button type="submit" class="btn btn-primary py-2 px-4">
+                                    <i class="fa fa-save me-2"></i>
+                                    Update user
+                                </button>
+
+                                <a href="/users" class="btn btn-secondary py-2 px-4 ms-2">
+                                    Cancel
+                                </a>
+
+                            </form>
+
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+        document.querySelector('#password').removeAttribute('required')
+    </script>
+
+    <%- include('../../dashboard/partials/footerLayout.ejs', { pathLevel: "/" }) %>

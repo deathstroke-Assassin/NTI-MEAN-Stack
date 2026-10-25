@@ -1,0 +1,59 @@
+<div class="container-fluid pt-4 px-4">
+  <!-- About Start -->
+  <div class="bg-light rounded p-4 mb-4">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-8">
+        <h3 class="text-primary mb-3">About BotanyLabs</h3>
+        <p class="mb-3">
+          Dashmin is an admin dashboard template that was rebuilt as an Angular application. The whole
+          dashboard shell - the fixed sidebar, the top navbar and the footer - lives in a single layout
+          component, while the pages themselves are loaded on demand by the router.
+        </p>
+        <p class="mb-0">
+          Only the two links that are needed for now are kept: <strong>Home</strong> and
+          <strong>About</strong>. Everything else from the original static template was left out.
+        </p>
+      </div>
+      <div class="col-lg-4 text-center">
+        <img class="rounded-circle border border-2 border-white" src="img/user.jpg" alt="Jhon Doe" style="width: 160px; height: 160px;" />
+        <h5 class="mt-3 mb-1">Jhon Doe</h5>
+        <span class="text-muted">Admin</span>
+      </div>
+    </div>
+  </div>
+  <!-- About End -->
+
+  <!-- Features Start -->
+  <div class="row g-4 mb-4">
+    @for (feature of features; track feature.title) {
+      <div class="col-md-4">
+        <div class="bg-light rounded h-100 p-4 text-center">
+          <i [class]="feature.icon + ' fa-3x text-primary mb-3'"></i>
+          <h6 class="mb-2">{{ feature.title }}</h6>
+          <p class="mb-0 text-muted">{{ feature.description }}</p>
+        </div>
+      </div>
+    }
+  </div>
+  <!-- Features End -->
+
+  <!-- Team Start -->
+  <div class="bg-light rounded p-4">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <h6 class="mb-0">Our Team</h6>
+      <a href="#">Show All</a>
+    </div>
+    <div class="row g-4">
+      @for (member of team; track member.name) {
+        <div class="col-sm-6 col-lg-4">
+          <div class="bg-white rounded p-4 text-center h-100">
+            <img class="rounded-circle mb-3" [src]="member.image" [alt]="member.name" style="width: 80px; height: 80px;" />
+            <h6 class="mb-1">{{ member.name }}</h6>
+            <span class="text-muted">{{ member.role }}</span>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+  <!-- Team End -->
+</div>

@@ -1,0 +1,11 @@
+used node.js 
+
+//npm
+npm init -y
+-y yes to all msgs
+-g global install
+
+nodemon to auto restart a js file after saving it 
+
+npm run start       // from the package.json scripts    "start": "node index.js"
+npm run dev         // from the package.json scripts    "dev": "nodemon index.js"

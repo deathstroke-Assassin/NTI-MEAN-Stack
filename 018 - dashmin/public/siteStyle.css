@@ -1,0 +1,32 @@
+.employeeActions {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.employeeActions > button {
+    margin: 3px;
+
+}
+.table-staff {
+    align-items: center;
+    align-content: center;
+}
+.table-staff th {
+    align-content: center;
+    align-items: center;
+    padding-right: 50px;
+}
+.table-staff td {
+    align-content: center;
+    align-items: center;
+    padding-left: 50px;
+}
+
+.staff-pic-name {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}

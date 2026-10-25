@@ -77,10 +77,12 @@ employee
     - writes logs
 
 second user = ADMIN
+
     - employ or deploy employee, or doctors
     - revise the patient logs 
 
 -=-=-=-=-
+
     patient should only be sent a code or a forum 
 
 
@@ -88,6 +90,61 @@ second user = ADMIN
     is added to database or edited 
 NOT THE ACTION DONE ON IT 
     by just viewing the data /\/\/\/\
-    
 
 
+
+
+CREATE DATABASE `hospitalTests`
+
+
+EMPLOY:
+
+employeeID
+employeeName
+login name
+password
+email
+employRule (admin - employ - doctor)
+isActive (boolean) // still working in the company or not ?
+=-=-=-=-=-=
+
+patients Table:
+
+patientsID
+patientsFullName
+patientsNationalID
+empCreatedID
+creationDate
+
+
+VISITS Table:
+    visitID
+    patientID
+    patientsFullName
+    empCreatedID
+    doctorID
+    dateTime
+    createdAt
+    Status (pending - complete - canceled)
+    report (TEXT)
+========
+
+homework
+Do these on phpMyAdmin 
+
+=======
+always start with the manager
+
+\//\/\\//\\/\/\/\
+
+
+MONGO
+==================
+sysdm.cpl > advanced > environmental Variables > new > browse
+
+cmd.exe > mongodg --version 
+
+===========
+
+
+CREATE TABLE `hospital`.`employees` (`employeeID` INT NOT NULL AUTO_INCREMENT , `employeeName` VARCHAR(120) NOT NULL , `loginName` VARCHAR(35) NOT NULL , `password` VARCHAR(20) NOT NULL , `email` VARCHAR(80) NOT NULL , `employRule` VARCHAR(20) NOT NULL , `isActive` BOOLEAN NOT NULL DEFAULT TRUE , PRIMARY KEY (`employeeID`), UNIQUE (`loginName`), UNIQUE (`email`)) ENGINE = InnoDB;

@@ -1,0 +1,10 @@
+SQL vs NoSQL
+
+// Iot = (internet of things) is a skill very simuiler to web back and frontend
+
+{Skills: {$regex: 'photoshop', '$options':'i'}} = 165
+{Level: {$regex: 'Entry', '$options':'i'}} = 1139   
+{YearsExp: {$regex: '3+ ', '$options':'i'}}
+
+
+{Country: {$not: {$in:['Cairo','Giza','Egypt']}}}

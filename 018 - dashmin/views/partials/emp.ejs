@@ -1,0 +1,17 @@
+
+                                <tbody>
+                                    <tr class="" style="vertical-align: middle;">
+                                        <th scope="row"><%= index +1 %></th>
+                                        <td><%= oneEmp.name %></td>
+                                       <td> <%= oneEmp.job %></td>
+                                       <td><%= oneEmp.address%></td>
+                                        <td><img src="<%= oneEmp.photo %> " width="200px"></img></td>
+                                   <td><div class="employeeActions">
+                                         <button class="btn-primary"> <a href="staff/<%= index%>">Details</a></button>
+                                        <button class="btn-warning"><a href="staffeditor/<%= index%>">Edit</button>
+                                        <button class="btn-danger"><a href="delete/<%= index%>">Delete</a></button>
+                                   </div>
+                                   </td>
+                                    </tr>
+                                </tbody>
+                           

@@ -1,0 +1,271 @@
+/* Products Section */
+
+.products-section {
+padding: 90px 8%;
+background-color: #fffaf3;
+}
+
+.section-heading {
+text-align: center;
+margin-bottom: 50px;
+}
+
+.section-subtitle {
+font-size: 10px;
+letter-spacing: 4px;
+font-weight: 600;
+color: #a7653d;
+margin-bottom: 15px;
+}
+
+.section-heading h2 {
+font-family: 'Playfair Display', serif;
+font-size: 46px;
+font-weight: 600;
+color: #48291e;
+margin-bottom: 12px;
+}
+
+.section-heading h2 span {
+color: #a7653d;
+font-style: italic;
+}
+
+.section-heading > p {
+color: #89796d;
+font-size: 13px;
+}
+
+/* Products Grid */
+
+.products-container {
+display: grid;
+grid-template-columns: repeat(3, minmax(0, 1fr));
+gap: 28px;
+}
+
+/* Product Card */
+
+.product-card {
+background-color: #fff;
+border: 1px solid #f0e7dc;
+border-radius: 8px;
+overflow: hidden;
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card {
+transform: translateY(-6px);
+box-shadow: 0 15px 35px rgba(72, 41, 30, 0.09);
+}
+
+/* Product Image */
+
+.product-image {
+position: relative;
+background-color: #f1e7da;
+overflow: hidden;
+aspect-ratio: 1 / 1;
+}
+
+.product-image img {
+width: 100%;
+height: 100%;
+display: block;
+object-fit: cover;
+transition: transform 0.5s ease;
+}
+
+.product-card .product-image img {
+transform: scale(1.06);
+}
+
+/* Product Badges */
+
+.product-badge {
+position: absolute;
+top: 15px;
+left: 15px;
+z-index: 1;
+background-color: #48291e;
+color: #fffaf3;
+padding: 7px 12px;
+border-radius: 3px;
+font-size: 10px;
+letter-spacing: 0.5px;
+}
+
+.new-badge {
+background-color: #a7653d;
+}
+
+/* Quick Add Button */
+
+.quick-add {
+position: absolute;
+bottom: 15px;
+right: 15px;
+width: 42px;
+height: 42px;
+border: none;
+border-radius: 50%;
+background-color: #fffaf3;
+color: #48291e;
+font-size: 26px;
+cursor: pointer;
+box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.quick-add {
+background-color: #48291e;
+color: #fffaf3;
+}
+
+/* Product Information */
+
+.product-info {
+padding: 22px 20px;
+}
+
+.product-category {
+color: #a7653d;
+font-size: 9px;
+letter-spacing: 2px;
+font-weight: 600;
+margin-bottom: 10px;
+}
+
+.product-info h3 {
+font-family: 'Playfair Display', serif;
+font-size: 22px;
+font-weight: 600;
+color: #48291e;
+margin-bottom: 12px;
+}
+
+.product-rating {
+display: flex;
+align-items: center;
+gap: 8px;
+margin-bottom: 20px;
+}
+
+.product-rating span {
+color: #c58b43;
+font-size: 13px;
+letter-spacing: 1px;
+}
+
+.product-rating small {
+color: #9a8c80;
+font-size: 10px;
+}
+
+/* Price and Cart Button */
+
+.product-bottom {
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 10px;
+padding-top: 16px;
+border-top: 1px solid #f0e7dc;
+}
+
+.product-price {
+color: #48291e;
+font-size: 18px;
+font-weight: 600;
+white-space: nowrap;
+}
+
+.add-to-cart {
+background-color: #48291e;
+color: #fffaf3;
+border: 1px solid #48291e;
+padding: 11px 14px;
+font-family: 'Poppins', sans-serif;
+font-size: 10px;
+cursor: pointer;
+transition: all 0.3s ease;
+}
+
+.add-to-cart {
+background-color: #a7653d;
+border-color: #a7653d;
+}
+
+/* Responsive Layout */
+
+@media (max-width: 1000px) {
+.products-section {
+padding: 70px 5%;
+}
+
+.products-container {
+    gap: 18px;
+}
+
+.product-info {
+    padding: 18px 14px;
+}
+
+.product-info h3 {
+    font-size: 19px;
+}
+
+.add-to-cart {
+    padding: 10px;
+}
+
+}
+
+@media (max-width: 700px) {
+.products-container {
+grid-template-columns: repeat(2, minmax(0, 1fr));
+gap: 16px;
+}
+
+.section-heading h2 {
+    font-size: 38px;
+}
+
+.product-info h3 {
+    font-size: 18px;
+}
+
+.product-bottom {
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.add-to-cart {
+    width: 100%;
+}
+
+}
+
+@media (max-width: 450px) {
+.products-container {
+grid-template-columns: 1fr;
+}
+
+.product-info {
+    padding: 22px;
+}
+
+.product-info h3 {
+    font-size: 22px;
+}
+
+.product-bottom {
+    flex-direction: row;
+    align-items: center;
+}
+
+.add-to-cart {
+    width: auto;
+}
+
+}

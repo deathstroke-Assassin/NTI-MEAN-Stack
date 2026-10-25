@@ -1,0 +1,172 @@
+{
+  "info": {
+    "_postman_id": "d3318d67-a7b2-4e48-9c26-9f4480bc44b7",
+    "name": "Casual Shop API",
+    "description": "Collection for testing the Casual Shop category, product, order, and report APIs. Run requests in order; create requests save IDs as collection variables. Create category/order requests add records to the database. The final cleanup request deletes only the product created by this collection.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3001/api/v1.0", "type": "string" },
+    { "key": "categoryId", "value": "", "type": "string" },
+    { "key": "productId", "value": "", "type": "string" },
+    { "key": "orderId", "value": "", "type": "string" },
+    { "key": "categoryName", "value": "", "type": "string" },
+    { "key": "utcToday", "value": "", "type": "string" }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "if (!pm.collectionVariables.get('categoryName')) {",
+          "  pm.collectionVariables.set('categoryName', 'Postman Test ' + Date.now());",
+          "}",
+          "pm.collectionVariables.set('utcToday', new Date().toISOString().slice(0, 10));"
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "List categories",
+          "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/categories" },
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Returns categories', () => pm.response.to.have.status(200));", "pm.test('Response is a JSON array', () => pm.expect(pm.response.json()).to.be.an('array'));"] } }]
+        },
+        {
+          "name": "Create test category",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"{{categoryName}}\",\n  \"description\": \"Temporary category created by the Casual Shop Postman collection.\"\n}", "options": { "raw": { "language": "json" } } },
+            "url": "{{baseUrl}}/categories/store"
+          },
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Category created', () => pm.response.to.have.status(201));", "const body = pm.response.json();", "pm.expect(body.category).to.have.property('_id');", "pm.collectionVariables.set('categoryId', body.category._id);"] } }]
+        },
+        {
+          "name": "Get test category (category update form endpoint)",
+          "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/categories/updateForm/{{categoryId}}" },
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Category found', () => pm.response.to.have.status(200));"] } }]
+        },
+        {
+          "name": "Update test category",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"id\": \"{{categoryId}}\",\n  \"name\": \"{{categoryName}}\",\n  \"description\": \"Updated by the Casual Shop Postman collection.\"\n}", "options": { "raw": { "language": "json" } } },
+            "url": "{{baseUrl}}/categories/update"
+          },
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Category updated', () => pm.response.to.have.status(200));"] } }]
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "List products with category names",
+          "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/products" },
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Products returned', () => pm.response.to.have.status(200));", "pm.test('Response is a JSON array', () => pm.expect(pm.response.json()).to.be.an('array'));"] } }]
+        },
+        {
+          "name": "Create test product",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Postman API Test Product\",\n  \"price\": 19.95,\n  \"photo\": \"\",\n  \"categoryId\": \"{{categoryId}}\"\n}", "options": { "raw": { "language": "json" } } },
+            "url": "{{baseUrl}}/products/store"
+          },
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Product created', () => pm.response.to.have.status(201));", "const body = pm.response.json();", "pm.expect(body.product).to.have.property('_id');", "pm.collectionVariables.set('productId', body.product._id);"] } }]
+        },
+        {
+          "name": "Get test product",
+          "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/products/show/{{productId}}" },
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Product found', () => pm.response.to.have.status(200));"] } }]
+        },
+        {
+          "name": "Get test product update data",
+          "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/products/updateForm/{{productId}}" },
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Product update data returned', () => pm.response.to.have.status(200));"] } }]
+        },
+        {
+          "name": "Update test product",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"id\": \"{{productId}}\",\n  \"name\": \"Postman API Test Product Updated\",\n  \"price\": 24.50,\n  \"categoryId\": \"{{categoryId}}\"\n}", "options": { "raw": { "language": "json" } } },
+            "url": "{{baseUrl}}/products/update"
+          },
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Product updated', () => pm.response.to.have.status(200));"] } }]
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Create test order (server calculates quantity and total)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"customer\": {\n    \"customerName\": \"Postman API Customer\",\n    \"customerPhone\": \"01012345678\",\n    \"customerAddress\": \"Cairo\"\n  },\n  \"products\": [\n    { \"productId\": \"{{productId}}\", \"quantity\": 2 }\n  ]\n}", "options": { "raw": { "language": "json" } } },
+            "url": "{{baseUrl}}/orders"
+          },
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Order created', () => pm.response.to.have.status(201));", "const body = pm.response.json();", "pm.expect(body.order).to.have.property('_id');", "pm.expect(body.order.total).to.be.a('number');", "pm.collectionVariables.set('orderId', body.order._id);"] } }]
+        },
+        {
+          "name": "List orders",
+          "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/orders" },
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Orders returned', () => pm.response.to.have.status(200));", "pm.expect(pm.response.json().orders).to.be.an('array');"] } }]
+        },
+        {
+          "name": "Filter orders by UTC date and status",
+          "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/orders?date={{utcToday}}&status=Pending" },
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Filtered order list returned', () => pm.response.to.have.status(200));"] } }]
+        },
+        {
+          "name": "Get test order",
+          "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/orders/{{orderId}}" },
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Order found', () => pm.response.to.have.status(200));"] } }]
+        },
+        {
+          "name": "Update test order status",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"In Progress\"\n}", "options": { "raw": { "language": "json" } } },
+            "url": "{{baseUrl}}/orders/{{orderId}}/status"
+          },
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Order status updated', () => pm.response.to.have.status(200));"] } }]
+        }
+      ]
+    },
+    {
+      "name": "Reports",
+      "item": [
+        {
+          "name": "Product report by category",
+          "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/reports/products?categoryId={{categoryId}}" },
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Product report returned', () => pm.response.to.have.status(200));", "pm.expect(pm.response.json().products).to.be.an('array');"] } }]
+        },
+        {
+          "name": "Order report by UTC date and status",
+          "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/reports/orders?date={{utcToday}}&status=In%20Progress" },
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Order report returned', () => pm.response.to.have.status(200));", "pm.expect(pm.response.json().orders).to.be.an('array');"] } }]
+        }
+      ]
+    },
+    {
+      "name": "Cleanup",
+      "item": [
+        {
+          "name": "Delete test product",
+          "request": { "method": "DELETE", "header": [], "url": "{{baseUrl}}/products/destroy/{{productId}}" },
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Test product deleted', () => pm.response.to.have.status(200));", "pm.collectionVariables.unset('productId');"] } }]
+        }
+      ]
+    }
+  ]
+}

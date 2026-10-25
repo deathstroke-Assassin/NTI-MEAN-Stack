@@ -1,0 +1,150 @@
+<%- include('../../partials/siteHeader', {pageTitle: "Update Movie" }) %>
+
+    <h3>Edit Movie</h3>
+
+    <table>
+        <tr>
+            <td>
+                <form action="../update" method="post" enctype="multipart/form-data" class="form-label">
+                    <label class="form-label" for="title">Movie Title</label>
+                    <input type="text" name="title" id="title" value="<%= oneMovie[0].title %>">
+                    <br>
+                    <label class="form-label" for="year">year</label>
+                    <input type="text" name="year" id="year" value="<%= oneMovie[0].year %>">
+                    <br>
+                    <br>
+                    <label class="form-label" for="cast">cast</label>
+                    <input type="text" name="cast" id="cast" value="<%= oneMovie[0].cast.join(', ') %>">
+                    <br>
+                    <br>
+                    <label class="form-label">Genres</label>
+
+<div id="selectedGenres" class="mb-2">
+    <% oneMovie[0].genres.forEach(genre => { %>
+        <button type="button" class="btn btn-primary genre-btn selected-genre">
+            <%= genre %>
+        </button>
+    <% }) %>
+</div>
+
+<div id="availableGenres">
+    <% const allGenres = [
+        "Action",
+        "Adventure",
+        "Animation",
+        "Comedy",
+        "Crime",
+        "Drama",
+        "Fantasy",
+        "Horror",
+        "Mystery",
+        "Romance",
+        "Sci-Fi",
+        "Thriller",
+        "War",
+        "Western"
+    ]; %>
+
+    <% allGenres.forEach(genre => { %>
+        <button 
+            type="button"
+            class="btn btn-outline-secondary genre-btn"
+            onclick="addGenre('<%= genre %>')">
+            <%= genre %>
+        </button>
+    <% }) %>
+</div>
+
+<input 
+    type="hidden" 
+    name="genres" 
+    id="genres"
+    value="<%= oneMovie[0].genres.join(', ') %>"
+>
+
+<br>
+                    <label class="form-label" for="thumbnail">photo</label>
+                    <input type="file" name="thumbnail" id="thumbnail" onchange="photoPreviewFn(this);">
+                    <br>
+
+                    <input type="hidden" name="id" value="<%= oneMovie[0]._id %>">
+
+                    <input type="submit" value="Update Product">
+                </form>
+            </td>
+            <td>
+                <img src="<%= oneMovie[0].thumbnail?.startsWith('http') 
+        ? oneMovie[0].thumbnail 
+        : '/img/uploades/' + oneMovie[0].thumbnail %>" id="photoPreview" alt="photo preview"
+                    style="max-width: 55%; max-height: 55%;">
+            </td>
+        </tr>
+    </table>
+
+    <script>
+        function photoPreviewFn(inputFile) {
+            var file = inputFile.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = () => {
+                    document.getElementById("photoPreview").setAttribute("src", reader.result);
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+    <script>
+    let selectedGenres = [
+        <% oneMovie[0].genres.forEach(genre => { %>
+            "<%= genre %>",
+        <% }) %>
+    ];
+
+    function addGenre(genre) {
+
+        if (!selectedGenres.includes(genre)) {
+            selectedGenres.push(genre);
+            updateGenres();
+        }
+    }
+
+    function updateGenres() {
+
+        // Update hidden input
+        document.getElementById("genres").value =
+            selectedGenres.join(", ");
+
+        // Update selected genres display
+        const selectedContainer =
+            document.getElementById("selectedGenres");
+
+        selectedContainer.innerHTML = "";
+
+        selectedGenres.forEach(genre => {
+
+            const button = document.createElement("button");
+
+            button.type = "button";
+            button.className = "btn btn-primary genre-btn";
+            button.textContent = genre;
+
+            button.onclick = function () {
+                removeGenre(genre);
+            };
+
+            selectedContainer.appendChild(button);
+        });
+    }
+
+    function removeGenre(genre) {
+
+        selectedGenres = selectedGenres.filter(
+            selected => selected !== genre
+        );
+
+        updateGenres();
+    }
+</script>
+    <!-- "/img/uploades/"  -->
+
+    <%- include('../../partials/siteFooter') %>

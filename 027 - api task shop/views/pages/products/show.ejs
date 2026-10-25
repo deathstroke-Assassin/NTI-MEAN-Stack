@@ -1,0 +1,20 @@
+<%- include('../../partials/siteHeader', {pageTitle: 'Product details'}) %>
+
+<section>
+    <% if (oneProduct.length) { %>
+        <div class="card shadow-sm border-0" style="max-width: 800px"><div class="row g-0">
+            <div class="col-md-5"><img class="img-fluid rounded-start product-detail-image" src="/img/uploades/<%= oneProduct[0].photo %>" alt="<%= oneProduct[0].name %>"></div>
+            <div class="col-md-7"><div class="card-body p-4">
+                <p class="text-uppercase text-secondary small fw-semibold">Product details</p>
+                <h1 class="h3"><%= oneProduct[0].name %></h1>
+                <p class="fs-4 fw-semibold text-primary mb-2"><%= oneProduct[0].price %></p>
+                <p class="text-secondary">Category: <%= oneProduct[0].category ? oneProduct[0].category.name : '-' %></p>
+                <a class="btn btn-outline-secondary" href="/products">Back to catalog</a>
+            </div></div>
+        </div></div>
+    <% } else { %>
+        <div class="alert alert-warning">No product with this information.</div>
+    <% } %>
+</section>
+
+<%- include('../../partials/siteFooter') %>

@@ -70,6 +70,7 @@ AND
 GROUP BY `customers`.`CompanyName`
 ORDER BY `Total price` DESC
 -=-=-=-
+
 SELECT `customers`.`CustomerID`,
 `customers`.`CompanyName`,
 round(

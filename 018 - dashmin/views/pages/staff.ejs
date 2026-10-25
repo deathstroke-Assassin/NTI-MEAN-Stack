@@ -1,0 +1,78 @@
+<%- include('../partials/siteHeader', {pageTitle: "Staff Page" }) %>
+
+    <div>
+        <table class="table table-success table-striped table-hover table-responsive table-staff">
+
+
+            <tr>
+                <th>
+                    <h2> Employee
+                    </h2>
+                </th>
+                <td>
+                    <div class="staff-pic-name">
+                        <h2>
+                            <%= employee?.name %>
+                        </h2>
+                        <img src="<%= employee?.photo %>" alt="" srcset="">
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <th>
+                    <h2> Job
+                    </h2>
+                </th>
+                <td>
+                    <%= employee?.job %>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    <h5> Adddress
+                    </h5>
+                </th>
+                <td>
+                    <%= employee?.address %>
+
+                </td>
+            </tr>
+
+            <tr>
+                <th>
+                    <h5> Experience
+                    </h5>
+                </th>
+                <td>
+                    <%= employee?.experience %>
+
+                </td>
+            </tr>
+
+            <tr>
+                <th>
+                    <h5> Age
+                    </h5>
+                </th>
+                <td>
+                    <%= employee?.age %>
+
+                </td>
+            </tr>
+
+            <tr>
+                <th>
+                    <h5> Description
+                    </h5>
+                </th>
+                <td>
+                    <%= employee?.description %>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <%- include('../partials/siteFooter') %>

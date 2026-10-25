@@ -1,0 +1,163 @@
+
+<%- include('../../dashboard/partials/headerLayout.ejs', {
+    pageName: "Create Product",
+    pathLevel: "/"
+}) %>
+
+<div class="container-fluid pt-4 px-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-12 col-lg-9">
+
+            <div class="bg-light rounded p-4">
+
+                <!-- Header -->
+                <div class="mb-4">
+                    <h3 class="mb-1">Create New Product</h3>
+                    <p class="text-muted mb-0">
+                        Add a new dish or product to your menu.
+                    </p>
+                </div>
+
+                <div class="row align-items-center">
+
+                    <!-- Form -->
+                    <div class="col-md-6">
+
+                        <form action="./store"
+                              method="post"
+                              enctype="multipart/form-data">
+
+                            <!-- Product Name -->
+                            <div class="mb-3">
+                                <label for="productName" class="form-label">
+                                    Product Name
+                                </label>
+
+                                <input type="text"
+                                       name="productName"
+                                       id="productName"
+                                       class="form-control"
+                                       placeholder="Enter product name"
+                                       required>
+                            </div>
+
+
+                            <!-- Weight -->
+                            <div class="mb-3">
+                                <label for="weight" class="form-label">
+                                    Weight
+                                </label>
+
+                                <input type="number"
+                                       name="weight"
+                                       id="weight"
+                                       class="form-control"
+                                       placeholder="Enter weight"
+                                       required>
+                            </div>
+
+
+                            <!-- Photo -->
+                            <div class="mb-4">
+                                <label for="photo" class="form-label">
+                                    Product Photo
+                                </label>
+
+                                <input type="file"
+                                       name="photo"
+                                       id="photo"
+                                       class="form-control"
+                                       accept="image/*"
+                                       onchange="photoPreviewFn(this);">
+                            </div>
+
+
+                            <!-- Submit -->
+                            <button type="submit"
+                                    class="btn btn-primary py-2 px-4">
+                                <i class="fa fa-plus me-2"></i>
+                                Create Product
+                            </button>
+
+                            <a href="/products"
+                               class="btn btn-secondary py-2 px-4 ms-2">
+                                Cancel
+                            </a>
+
+                        </form>
+
+                    </div>
+
+
+                    <!-- Image Preview -->
+                    <div class="col-md-6 mt-4 mt-md-0">
+
+                        <div class="text-center">
+
+                            <h6 class="mb-3">
+                                Photo Preview
+                            </h6>
+
+                            <div class="border rounded p-3 bg-white">
+
+                                <img src=""
+                                     id="photoPreview"
+                                     class="img-fluid rounded"
+                                     alt="Photo Preview"
+                                     style="max-height: 300px;">
+
+                                <p id="previewText"
+                                   class="text-muted mt-3 mb-0">
+                                    Select an image to preview it here.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    function photoPreviewFn(inputFile) {
+
+        var file = inputFile.files[0];
+
+        if (file) {
+
+            var reader = new FileReader();
+
+            reader.onload = () => {
+
+                document
+                    .getElementById("photoPreview")
+                    .setAttribute("src", reader.result);
+
+                document
+                    .getElementById("previewText")
+                    .style.display = "none";
+            };
+
+            reader.readAsDataURL(file);
+        }
+    }
+
+</script>
+
+
+<%- include('../../dashboard/partials/footerLayout.ejs', {
+    pathLevel: "/"
+}) %>

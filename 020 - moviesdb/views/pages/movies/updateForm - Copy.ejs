@@ -1,0 +1,55 @@
+<%- include('../../partials/siteHeader', {pageTitle: "Update Movie" }) %>
+
+    <h3>Edit Movie</h3>
+
+    <table>
+        <tr>
+            <td>
+                <form action="../update" method="post" enctype="multipart/form-data" class="form-label">
+                    <label class="form-label" for="title">Movie Title</label>
+                    <input type="text" name="title" id="title" value="<%= oneMovie[0].title %>">
+                    <br>
+                    <label class="form-label" for="year">year</label>
+                    <input type="text" name="year" id="year" value="<%= oneMovie[0].year %>">
+                    <br>
+                    <br>
+                    <label class="form-label" for="cast">cast</label>
+                    <input type="text" name="cast" id="cast" value="<%= oneMovie[0].cast.join(', ') %>">
+                    <br>
+                    <br>
+                    <label class="form-label" for="genres">genres</label>
+                    <input type="text" name="genres" id="genres" value="<%= oneMovie[0].genres.join(', ') %>">
+                    <br>
+                    <label class="form-label" for="thumbnail">photo</label>
+                    <input type="file" name="thumbnail" id="thumbnail" onchange="photoPreviewFn(this);">
+                    <br>
+
+                    <input type="hidden" name="id" value="<%= oneMovie[0]._id %>">
+
+                    <input type="submit" value="Update Product">
+                </form>
+            </td>
+            <td>
+                <img src="<%= oneMovie[0].thumbnail?.startsWith('http') 
+        ? oneMovie[0].thumbnail 
+        : '/img/uploades/' + oneMovie[0].thumbnail %>" id="photoPreview" alt="photo preview"
+                    style="max-width: 55%; max-height: 55%;">
+            </td>
+        </tr>
+    </table>
+
+    <script>
+        function photoPreviewFn(inputFile) {
+            var file = inputFile.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = () => {
+                    document.getElementById("photoPreview").setAttribute("src", reader.result);
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+    <!-- "/img/uploades/"  -->
+
+    <%- include('../../partials/siteFooter') %>

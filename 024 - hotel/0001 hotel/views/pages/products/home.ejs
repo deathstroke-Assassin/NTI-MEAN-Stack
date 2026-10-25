@@ -1,0 +1,117 @@
+<%- include('../../dashboard/partials/homeHeader.ejs', {
+    pageName: "Dishes Page",
+    pathLevel: "/"
+}) %>
+
+<div class="container-fluid pt-4 px-4">
+
+    <!-- Page Header -->
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h3 class="mb-1">Products</h3>
+            <p class="text-muted mb-0">Manage your dishes and products</p>
+        </div>
+
+        <a href="/products/createForm" class="btn btn-primary">
+            <i class="fa fa-plus me-2"></i>
+            Create New Product
+        </a>
+    </div>
+
+
+    <% if(products.length > 0) { %>
+
+        <!-- Products Table -->
+        <div class="bg-light rounded p-4">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Weight</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <% products.forEach((oneProduct, index) => { %>
+
+                            <tr>
+
+                                <td>
+                                    <%= index + 1 %>
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        <%= oneProduct.productName %>
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    <%= oneProduct.weight %>
+                                </td>
+
+                                
+
+                            </tr>
+
+                        <% }); %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    <% } else { %>
+
+        <!-- Empty State -->
+        <div class="bg-light rounded p-5 text-center">
+
+            <i class="fa fa-utensils fa-3x text-primary mb-3"></i>
+
+            <h4>No Products Yet</h4>
+
+            <p class="text-muted">
+                You haven't created any products yet.
+            </p>
+
+            <a href="/products/createForm" class="btn btn-primary">
+                <i class="fa fa-plus me-2"></i>
+                Create Your First Product
+            </a>
+
+        </div>
+
+    <% } %>
+
+</div>
+
+
+<script>
+
+    function destroy(obj) {
+
+        if (confirm("Are You Sure you want to Delete this Product?")) {
+
+            let id = obj.getAttribute("productID");
+
+            window.location.replace("/products/destroy/" + id);
+
+        }
+
+    }
+
+</script>
+
+
+<%- include('../../dashboard/partials/footerLayout.ejs', {
+    pathLevel: "/"
+}) %>

@@ -1,0 +1,108 @@
+<%- include('../../partials/siteHeader', {pageTitle: oneMovie[0].title}) %>
+    <%= console.log(oneMovie[0].title)%>
+        <section>
+
+            <div class="row g-4">
+
+                <section class="searchBar">
+                    <form action="/moviesSearch" method="GET">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search movies..." name="search">
+
+                            <button class="btn btn-outline-secondary" type="submit">
+                                Search
+                            </button>
+                        </div>
+                    </form>
+                </section>
+
+                <div class="col-xl-12">
+
+                    <div class="shadow-sm d-flex flex-row  col-md-12"
+                        style="flex-wrap: wrap !important;">
+                    
+                        <div class=" shadow-sm d-flex flex-row  col-md-6"
+>
+                            <!-- Thumbnail -->
+                            <img src="<%= oneMovie[0].thumbnail %>" class="card-img-top col-md-4"
+                                alt="<%= oneMovie[0].title %>" style="
+                                height: 80%; 
+                                width: 80%;
+                                object-fit: cover;"
+                                width="<%=oneMovie[0].thumbnail_width %>">
+                        </div>
+                        <div class="card-body d-flex flex-column  col-md-6 ">
+                            <div class=" d-flex flex-column ">
+                                <!-- Title -->
+                                <h1 class="card-title fw-bold">
+                                    <%= oneMovie[0].title %>
+                                </h1>
+
+                                <!-- Year -->
+                                <h3 class="text-muted mb-2">
+                                    <%= oneMovie[0].year %>
+                                </h3>
+                            </div>
+                            <div class="card-body d-flex flex-row">
+
+                                <div class="card-body d-flex flex-column">
+                                    <!-- Cast -->
+                                    <h3 class="card-text mb-2">
+                                        <strong>Cast:</strong>
+                                        <% oneMovie[0].cast.forEach(actor=> { %>
+                                            <h4 class="text-muted">
+                                                <%= actor %>
+                                            </h4>
+                                            <%}) %>
+                                    </h3>
+                                </div>
+
+                                <div class="card-body d-flex flex-column">
+
+                                    <!-- Genres -->
+                                    <h3 class="card-text mb-2">
+                                        <strong>Genres:</strong>
+                                    </h3>
+
+                                    <% oneMovie[0].genres.forEach(genre=> { %>
+                                        <h4 class="text-muted">
+                                            <%= genre %>
+                                        </h4>
+                                        <%})%>
+                                            <!-- Operations -->
+                                            <div class="mt-auto pt-3 d-flex gap-2">
+
+                                                <a href="/movies/updateForm/<%= oneMovie[0]._id %>"
+                                                    class="btn btn-outline-info btn-sm">
+                                                    Update
+                                                </a>
+
+                                                <button onclick="destroy(this);" movieID="<%= oneMovie[0]._id %>"
+                                                    class="btn btn-danger btn-sm">
+                                                    Delete
+                                                </button>
+
+                                            </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+<script>
+    function destroy(obj){
+        if(confirm("Are You Sure you want to Delete this Movie ?")) {
+            id = obj.getAttribute("movieID");
+            window.location.replace("/movies/destroy/" + id);
+        }        
+    }
+</script>
+
+        </section>

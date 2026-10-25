@@ -1,0 +1,10 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+/* The dropdown menus are toggled with the "show" class (Angular), which is
+   what bootstrap expects from its own javascript plugin. */
+.dropdown-menu.show {
+  display: block;
+}

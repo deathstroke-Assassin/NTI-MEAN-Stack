@@ -1,0 +1,42 @@
+<%- include('../../partials/siteHeader', {pageTitle: 'Orders'}) %>
+
+<section>
+    <div class="page-heading d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
+        <div><p class="text-uppercase text-secondary small fw-semibold mb-1">Shop management</p><h1 class="h2 mb-0">Customer orders</h1></div>
+        <a class="btn btn-primary" href="/orders/createForm">Enter a customer order</a>
+    </div>
+    <form method="get" action="/orders" class="order-filters card card-body shadow-sm border-0">
+        <label class="form-label mb-0">Date (UTC) <input class="form-control mt-1" type="date" name="date" value="<%= filters.date || '' %>"></label>
+        <label class="form-label mb-0">Status
+            <select class="form-select mt-1" name="status">
+                <option value="">All statuses</option>
+                <% statuses.forEach(status => { %>
+                    <option value="<%= status %>" <%= filters.status === status ? 'selected' : '' %>><%= status %></option>
+                <% }) %>
+            </select>
+        </label>
+        <div class="d-flex gap-2"><button class="btn btn-dark" type="submit">Filter</button>
+        <a class="btn btn-outline-secondary" href="/orders">Clear</a></div>
+    </form>
+    <% if (orders.length) { %>
+        <div class="table-scroll card shadow-sm border-0"><table class="table table-hover align-middle mb-0 orders-table">
+            <thead class="table-light"><tr><th>Order date</th><th>Customer</th><th>Phone</th><th>Items</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+                <% orders.forEach(order => { %>
+                    <tr>
+                        <td><%= new Date(order.orderDateTime).toISOString().replace('T', ' ').replace('Z', ' UTC') %></td>
+                        <td><%= order.customer.customerName %></td>
+                        <td><%= order.customer.customerPhone %></td>
+                        <td><%= order.products.reduce((sum, item) => sum + item.quantity, 0) %></td>
+                        <td><span class="badge bg-secondary"><%= order.currentStatus %></span></td>
+                        <td><a class="btn btn-sm btn-outline-primary" href="/orders/show/<%= order._id %>">View</a></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table></div>
+    <% } else { %>
+        <div class="alert alert-light border">No orders match these filters.</div>
+    <% } %>
+</section>
+
+<%- include('../../partials/siteFooter') %>

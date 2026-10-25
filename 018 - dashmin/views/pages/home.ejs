@@ -1,0 +1,55 @@
+
+<%- include('../partials/siteHeader', {pageTitle: "welcome boi Home Page"}) %>
+<!-- <%- include('../partials/sideMenu', {pageTitle: "welcome boi Home Page"}) %> -->
+
+<!--&lt;!&ndash; Blank Start &ndash;&gt;-->
+<!--<div class="container-fluid pt-4 px-4">-->
+<!--    <div class="row vh-100 bg-light rounded align-items-center justify-content-center mx-0">-->
+<!--        <div class="col-md-6 text-center">-->
+<!--            <h3>This is blank page</h3>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--&lt;!&ndash; Blank End &ndash;&gt;-->
+
+
+
+<!-- Blank Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row vh-100 bg-light rounded align-items-center justify-content-space-between mx-0">
+        <div class="col-md-12 text-center">
+            <div class="bg-light rounded h-100 p-4">
+                <h2 class="mb-4 ">الموظفين</h2>
+
+<div class="bg-light rounded h-100 p-4">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Job</th>
+                                        <th scope="col">Address</th>
+                                        <th scope="col">photo</th>
+                                    </tr>
+                                </thead>
+                <% emps.forEach((oneEmp,index) => { %>
+                    
+                        <%- include('../partials/emp', { oneEmp: oneEmp, index}) %>
+                    
+                <% }); %>
+ </table>
+                        </div>
+
+                        
+                        
+                        <%- include('../partials/siteFooter') %>
+                        
+
+            </div>            
+
+
+        </div>    
+    </div>        
+</div>    
+<!-- Blank End -->
+

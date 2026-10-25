@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hotel Rooms</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        :root {
+            --coffee-dark: #38251d;
+            --coffee: #6f4e37;
+            --coffee-light: #a67b5b;
+            --caramel: #c49a6c;
+            --cream: #f8f3eb;
+            --cream-dark: #eee3d5;
+            --white: #fffdf9;
+            --muted: #8b7a6d;
+        }
+
+        body {
+            background: var(--cream);
+            color: var(--coffee-dark);
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            background: var(--coffee-dark);
+            padding: 16px 0;
+        }
+
+        .navbar-brand {
+            color: var(--cream);
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .navbar-brand:hover {
+            color: var(--caramel);
+        }
+
+        .navbar-brand i {
+            color: var(--caramel);
+            margin-right: 8px;
+        }
+
+        .navbar .nav-link {
+            color: #dfcdbb;
+        }
+
+        .navbar .nav-link:hover {
+            color: white;
+        }
+
+        .hero {
+            background: linear-gradient(120deg, #38251d, #76563e);
+            color: var(--cream);
+            padding: 45px 0 65px;
+            border-radius: 0 0 25px 25px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+        }
+
+        .hero p {
+            color: #dfcdbb;
+        }
+
+        .hero-icon {
+            font-size: 5rem;
+            color: var(--caramel);
+        }
+
+        .main-content {
+            margin-top: -25px;
+            position: relative;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border: 1px solid var(--cream-dark);
+            border-radius: 15px;
+            padding: 20px;
+            height: 100%;
+        }
+
+        .stat-icon {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--cream);
+            color: var(--coffee);
+            border-radius: 12px;
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .section-title {
+            font-weight: 700;
+        }
+
+        .search-box {
+            background: var(--white);
+            border: 1px solid var(--cream-dark);
+            border-radius: 11px;
+            padding: 5px 12px;
+        }
+
+        .search-box i {
+            color: var(--coffee-light);
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            box-shadow: none !important;
+        }
+
+        .search-box input:focus {
+            background: transparent;
+        }
+
+        .level-filter {
+            background: var(--white);
+            color: var(--coffee);
+            border: 1px solid var(--cream-dark);
+            border-radius: 10px;
+            padding: 9px 19px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .level-filter:hover {
+            background: var(--cream-dark);
+            color: var(--coffee-dark);
+        }
+
+        .level-filter.active {
+            background: var(--coffee);
+            color: white;
+            border-color: var(--coffee);
+        }
+
+        .room-card {
+            background: var(--white);
+            border: 1px solid var(--cream-dark);
+            border-radius: 16px;
+            overflow: hidden;
+            height: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .room-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(56, 37, 29, 0.10);
+        }
+
+        .room-cover {
+            height: 125px;
+            background: linear-gradient(135deg, #e8d6c1, #c49a6c);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .room-cover i {
+            font-size: 3.7rem;
+            color: var(--coffee);
+        }
+
+        .level-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: var(--white);
+            color: var(--coffee-dark);
+            border-radius: 8px;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .room-card-body {
+            padding: 19px;
+        }
+
+        .room-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .room-subtitle {
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .room-divider {
+            border-color: var(--cream-dark);
+            opacity: 1;
+        }
+
+        .room-info {
+            color: var(--muted);
+            font-size: 0.88rem;
+        }
+
+        .room-info i {
+            color: var(--coffee-light);
+            margin-right: 6px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            border-radius: 7px;
+            padding: 5px 9px;
+            font-size: 0.74rem;
+            font-weight: 700;
+        }
+
+        .status-available {
+            background: #f1e5d5;
+            color: #6f4e37;
+        }
+
+        .status-reserved {
+            background: #f2d9cb;
+            color: #8a4027;
+        }
+
+        .status-unavailable {
+            background: #e6dcd7;
+            color: #594139;
+        }
+
+        .btn-coffee {
+            background: var(--coffee);
+            color: white;
+            border: 1px solid var(--coffee);
+            border-radius: 9px;
+            font-weight: 600;
+            padding: 9px 14px;
+        }
+
+        .btn-coffee:hover {
+            background: var(--coffee-dark);
+            border-color: var(--coffee-dark);
+            color: white;
+        }
+
+        .empty-state {
+            background: var(--white);
+            border: 1px dashed var(--caramel);
+            border-radius: 16px;
+            padding: 55px 20px;
+            text-align: center;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--caramel);
+        }
+
+        footer {
+            margin-top: 60px;
+            padding: 24px 0;
+            background: var(--coffee-dark);
+            color: #dfcdbb;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+
+            <a class="navbar-brand" href="/rooms">
+                <i class="bi bi-cup-hot-fill"></i>
+                Golden Leaf Hotel
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                aria-label="Toggle navigation">
+
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="ms-auto d-flex gap-3">
+                <a class="nav-link" href="/rooms">
+                    <i class="bi bi-grid me-1"></i>
+                    Rooms
+                </a>
+                <a class="nav-link" href="/reservations">
+                    <i class="bi bi-calendar-check me-1"></i>
+                    Reservations
+                </a>
+            </div>
+
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="row align-items-center">
+
+                <div class="col-md-8">
+                    <p class="text-uppercase small fw-bold mb-2">
+                        Hotel Management
+                    </p>
+
+                    <h1>Rooms & Levels</h1>
+
+                    <p class="mb-0">
+                        Explore all four levels, check room reservations,
+                        and manage your guests' stays.
+                    </p>
+                </div>
+
+                <div class="col-md-4 text-end">
+                    <i class="bi bi-building hero-icon"></i>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <main class="container main-content pb-4">
+
+        <% const roomList=Array.isArray(rooms) ? rooms : []; const reservations=roomList.flatMap(room=>
+            Array.isArray(room.reservations) ? room.reservations : []
+            );
+
+            const pendingCount = reservations.filter(
+            reservation => reservation.status === "pending"
+            ).length;
+
+            const currentCount = reservations.filter(
+            reservation => reservation.status === "current"
+            ).length;
+
+            const unavailableCount = roomList.filter(
+            room => room.isAvailableForBooking === false
+            ).length;
+            %>
+
+            <!-- Statistics -->
+
+            <div class="row g-3 mb-5">
+
+                <div class="col-6 col-lg-3">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="bi bi-door-open"></i>
+                        </div>
+                        <div class="stat-number">
+                            <%= roomList.length %>
+                        </div>
+                        <div class="stat-label">Total Rooms</div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-lg-3">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="bi bi-calendar-check"></i>
+                        </div>
+                        <div class="stat-number">
+                            <%= pendingCount %>
+                        </div>
+                        <div class="stat-label">Pending Reservations</div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-lg-3">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="bi bi-person-check"></i>
+                        </div>
+                        <div class="stat-number">
+                            <%= currentCount %>
+                        </div>
+                        <div class="stat-label">Current Stays</div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-lg-3">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="bi bi-tools"></i>
+                        </div>
+                        <div class="stat-number">
+                            <%= unavailableCount %>
+                        </div>
+                        <div class="stat-label">Unavailable Rooms</div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-outline-secondary" id="reservedRoomsFilter">
+                    Reserved Rooms
+                </button>
+            </div>
+            <!-- Search and heading -->
+
+            <div class="d-flex flex-column flex-md-row
+                justify-content-between align-items-md-center gap-3 mb-4">
+
+                <div>
+                    <h2 class="section-title mb-1">Find a Room</h2>
+                    <p class="text-secondary mb-0">
+                        Select a level or search for a specific room.
+                    </p>
+                </div>
+
+                <div class="search-box d-flex align-items-center" style="max-width: 320px; width: 100%;">
+
+                    <i class="bi bi-search me-2"></i>
+
+                    <input type="search" id="roomSearch" class="form-control" placeholder="Search A01, B12..."
+                        aria-label="Search rooms">
+                </div>
+
+            </div>
+
+            <!-- Four level filters -->
+
+            <div class="d-flex flex-wrap gap-2 mb-4" id="levelFilters">
+
+                <button type="button" class="level-filter active" data-level="all">
+                    All Rooms
+                    <span class="ms-1">
+                        <%= roomList.length %>
+                    </span>
+                </button>
+
+                <% ["A", "B" , "C" , "D" ].forEach(level=> { %>
+
+                    <button type="button" class="level-filter" data-level="<%= level %>">
+
+                        Level <%= level %>
+
+                            <span class="ms-1">
+                                <%= roomList.filter(room=>
+                                    String(room.roomName || "").startsWith(level)
+                                    ).length %>
+                            </span>
+
+                    </button>
+
+                    <% }); %>
+
+            </div>
+
+            <!-- Rooms grid -->
+
+            <% if (roomList.length> 0) { %>
+
+                <div class="row g-4" id="roomsContainer">
+
+                    <% roomList.forEach(room=> {
+
+                        const roomReservations = Array.isArray(room.reservations)
+                        ? room.reservations
+                        : [];
+
+                        const level = String(room.roomName || "").charAt(0).toUpperCase();
+
+                        const activeReservations = roomReservations.filter(
+                        reservation =>
+                        reservation.status === "pending" ||
+                        reservation.status === "current"
+                        );
+
+                        const isUnavailable =
+                        room.isAvailableForBooking === false ||
+                        roomReservations.some(
+                        reservation => reservation.status === "NOT AVAILABLE"
+                        );
+
+                        const status = isUnavailable
+                        ? "Unavailable"
+                        : activeReservations.length > 0
+                        ? "Reserved"
+                        : "Available";
+
+                        const statusClass = isUnavailable
+                        ? "status-unavailable"
+                        : activeReservations.length > 0
+                        ? "status-reserved"
+                        : "status-available";
+
+                        %>
+
+                        <div class="col-sm-6 col-lg-4 col-xl-3 room-item" data-level="<%= level %>"
+                            data-name="<%= String(room.roomName || '').toLowerCase() %>"
+                            data-status="<%= status.toLowerCase() %>">
+                            <article class="room-card">
+
+                                <div class="room-cover">
+
+                                    <span class="level-badge">
+                                        LEVEL <%= level %>
+                                    </span>
+
+                                    <i class="bi bi-door-closed"></i>
+
+                                </div>
+
+                                <div class="room-card-body">
+
+                                    <div class="d-flex justify-content-between
+                                        align-items-start gap-2 mb-3">
+
+                                        <div>
+                                            <h3 class="room-name">
+                                                <%= room.roomName || "Unnamed" %>
+                                            </h3>
+
+                                            <div class="room-subtitle">
+                                                Hotel room
+                                            </div>
+                                        </div>
+
+                                        <span class="status-badge <%= statusClass %>">
+                                            <%= status %>
+                                        </span>
+
+                                    </div>
+
+                                    <hr class="room-divider">
+
+                                    <div class="d-flex justify-content-between mb-3">
+                                        <span class="room-info">
+                                            <i class="bi bi-calendar-week"></i>
+                                            Total Reservations
+                                        </span>
+
+                                        <strong>
+                                            <%= roomReservations.length %>
+                                        </strong>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between mb-4">
+                                        <span class="room-info">
+                                            <i class="bi bi-person-check"></i>
+                                            Pending / Current
+                                        </span>
+
+                                        <strong>
+                                            <%= activeReservations.length %>
+                                        </strong>
+                                    </div>
+
+                                    <a href="/rooms/<%= room._id %>" class="btn btn-coffee w-100">
+
+                                        View Details
+                                        <i class="bi bi-arrow-right ms-2"></i>
+
+                                    </a>
+
+                                </div>
+
+                            </article>
+
+                        </div>
+
+                        <% }); %>
+
+                </div>
+
+                <div id="emptySearch" class="empty-state mt-4" hidden>
+                    <i class="bi bi-search"></i>
+                    <h4 class="mt-3">No rooms found</h4>
+                    <p class="text-secondary mb-0">
+                        Try another room name or select a different level.
+                    </p>
+                </div>
+
+                <% } else { %>
+
+                    <div class="empty-state">
+                        <i class="bi bi-building"></i>
+                        <h4 class="mt-3">No rooms available</h4>
+                        <p class="text-secondary mb-0">
+                            No rooms were found in the database.
+                        </p>
+                    </div>
+
+                    <% } %>
+
+    </main>
+
+    <footer>
+        <div class="container d-flex flex-column flex-md-row
+                justify-content-between align-items-center gap-2">
+
+            <span>
+                <i class="bi bi-cup-hot-fill me-2"></i>
+                Golden Leaf Hotel Management
+            </span>
+
+            <span>
+                &copy; <%= new Date().getFullYear() %>
+            </span>
+
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const filterButtons = document.querySelectorAll(".level-filter");
+        const roomItems = document.querySelectorAll(".room-item");
+        const searchInput = document.getElementById("roomSearch");
+        const emptySearch = document.getElementById("emptySearch");
+
+        let selectedLevel = "all";
+        let showingReserved = false
+        function filterRooms() {
+            const search = searchInput.value.trim().toLowerCase();
+            let visibleCount = 0;
+
+            roomItems.forEach(room => {
+                const matchesLevel =
+                    selectedLevel === "all" ||
+                    room.dataset.level === selectedLevel;
+
+                const matchesSearch =
+                    (room.dataset.name || "").includes(search);
+                    
+                const matchesStatus =
+                    !showingReserved || room.dataset.status === "reserved";
+
+                const visible = matchesLevel && matchesSearch && matchesStatus;
+
+                room.hidden = !visible;
+
+                if (visible) {
+                    visibleCount++;
+                }
+            });
+
+            if (emptySearch) {
+                emptySearch.hidden = visibleCount !== 0;
+            }
+        }
+
+        filterButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                selectedLevel = button.dataset.level;
+
+                filterButtons.forEach(item => {
+                    item.classList.toggle("active", item === button);
+                });
+
+                filterRooms();
+            });
+        });
+
+        searchInput.addEventListener("input", filterRooms);
+
+
+
+
+
+        const reservedRoomsFilter = document.getElementById("reservedRoomsFilter");
+
+
+        reservedRoomsFilter.addEventListener("click", () => {
+            showingReserved = !showingReserved;
+
+            reservedRoomsFilter.textContent = showingReserved
+                ? "Show All Rooms"
+                : "Reserved Rooms";
+
+            reservedRoomsFilter.classList.toggle("active", showingReserved);
+
+            filterRooms();
+        });
+
+    </script>
+
+</body>
+
+</html>

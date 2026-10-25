@@ -1,0 +1,175 @@
+const {
+  MongoClient,
+  ObjectId,
+  mongoConnection,
+} = require("./mongodbConnection");
+
+async function index() {
+  const client = await MongoClient.connect(mongoConnection);
+  const db = client.db();
+  // const movies = await db.collection("movies").findOne({ title: "Dog Gone" })
+  // const movies = await db.collection("movies").find().limit(60).toArray();
+  const movies = await db
+    .collection("movies")
+    .find()
+    .sort({ year: -1 })
+    .limit(50)
+    .toArray();
+
+  client.close();
+  return movies;
+}
+async function search(MovieSearchText) {
+  const client = await MongoClient.connect(mongoConnection);
+  const db = client.db();
+
+  const movies = await db
+    .collection("movies")
+    .find({
+      title: {
+        $regex: MovieSearchText,
+        $options: "i",
+      },
+    })
+    .sort({ year: -1 })
+    .limit(20)
+    .toArray();
+
+  client.close();
+
+  return movies;
+}
+
+async function getCategory(MovieCategory) {
+  const client = await MongoClient.connect(mongoConnection);
+  const db = client.db();
+  const movies = await db.collection("movies")
+  .find({
+    genres: {
+      $regex: MovieCategory,
+      $options: 'i'
+    }
+  })
+  .sort({ year: -1 })
+    .limit(20)
+    .toArray();
+
+  client.close();
+  console.log(movies.length);
+  return movies;
+}
+
+async function show(id) {
+  const client = await MongoClient.connect(mongoConnection);
+  const db = client.db();
+  const movies = await db
+    .collection("movies")
+    .find({ _id: new ObjectId(String(id)) })
+    .toArray();
+  client.close();
+  return movies;
+}
+
+async function updateForm(id) {
+  const client = await MongoClient.connect(mongoConnection);
+ console.log("UPDATE ID:", id);
+    console.log("TYPE:", typeof id);
+  const db = client.db();
+  const movies = await db
+    .collection("movies")
+    .find({ _id: new ObjectId(String(id)) })
+    .toArray();
+  client.close();
+  return movies;
+}
+
+async function store(createFormData) {
+  let doc = {};
+  doc.productName = createFormData.productName;
+  doc.weight = createFormData.weight;
+  doc.photo = createFormData.photo;
+
+  const client = await MongoClient.connect(mongoConnection);
+  const db = client.db();
+
+  await db.collection("movies").insertOne(doc, function (err, res) {
+    if (err) throw err;
+    client.close();
+    return { operation: "success" };
+  });
+}
+
+async function update(updateFormData) {
+  const id = updateFormData.id;
+  const thumbnail = updateFormData.thumbnail;
+  const title = updateFormData.title;
+  const year = updateFormData.year;
+ const cast = updateFormData.cast
+        .split(",")
+        .map(actor => actor.trim())
+        .filter(actor => actor !== "");
+
+    const genres = updateFormData.genres
+        .split(",")
+        .map(genre => genre.trim())
+        .filter(genre => genre !== "");
+        
+  if (thumbnail != "") {
+    var updateQuery = {
+      title: title,
+      year: year,
+      cast: cast,
+      genres: genres,
+      thumbnail: thumbnail,
+    };
+  } else {
+    var updateQuery = {
+     title: title,
+      year: year,
+      cast: cast,
+      genres: genres,
+    };
+  }
+
+  const client = await MongoClient.connect(mongoConnection);
+  const db = client.db();
+  await db
+    .collection("movies")
+    .updateOne(
+      { _id: new ObjectId(String(id)) },
+      { $set: updateQuery },
+      function (err, res) {
+        if (err) throw err;
+
+        client.close();
+
+        return { operation: "success" };
+      },
+    );
+}
+async function destroy(id) {
+  const client = await MongoClient.connect(mongoConnection);
+  const db = client.db();
+
+  await db
+    .collection("movies")
+    .deleteOne({ _id: new ObjectId(String(id)) }, function (err, res) {
+      if (err) { throw err}
+else if (res) {
+  alert(" Movie deleted from database")
+}
+      client.close();
+      return { operation: "success" };
+    });
+}
+
+module.exports = {
+  index,
+  search,
+  getCategory,
+  store,
+  show,
+  destroy,
+  updateForm,
+  update,
+};

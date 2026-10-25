@@ -1,0 +1,339 @@
+[
+    {
+        $match: 
+        {
+        status: "delivered"
+        }
+    }
+]
+    //shows only results that has that query a status of "delivered"
+=======
+
+[
+    {$project: 
+        {
+            _id:0           // hides the id and shows the rest
+        }
+    }
+]
+    
+=====
+
+[
+    {
+    $project: 
+        {
+            _id:1          // shows only the id and hides the rest
+        }
+    }
+]
+is used like (AS) in mySQL
+
+=====
+
+[
+  {
+    $match:
+      {
+        Country: {
+          $regex: "giza",
+          $options: "i"
+        }
+      }
+  },    // first result
+  {
+    $match:
+      /**
+       * query: The query in MQL.
+       */
+      {
+        Type: "Internship"
+      }
+  },        // first result is piped to this then the conditions apply forming a second result
+  {
+    $project: {
+      _id: 0,
+      "Job Type": '$Type',
+      jobType: '$Type'
+    }
+  }     //    second result is used as start then third conditions apply forming the third result
+]
+
+========
+
+  {
+    $project: {
+      _id: 0,
+      Address: {$concat:["$Country", ' ', '$Location']}
+    }
+  }
+    // creaates a field : Address
+      within it you create a function like {$concat:[]} or give it any value
+
+================
+
+/**
+ * _id: The id of the group.
+ * fieldN: The first field name.
+ */
+{ $group
+  _id: expression,
+  fieldN: {
+    accumulatorN: expressionN
+  }
+}
+
+==================
+  [
+  { $sort: { Company: -1 } },
+  { $skip: 7}
+]
+=======
+all aggreggations are in []
+=====
+
+[
+  {$limit: 19},
+  {$count: 'total results'}
+]
+
+
+===
+[
+  {$skip: 7},
+  {$count: 'total results'}
+]
+
+===
+RelationShip:
+    on orders collection:
+[
+  {$lookup: {
+    from: "stores",
+    localField: "storeId",
+    foreignField: "_id",
+    as: "storeOwner"
+  }}
+]
+results in added storeOwner as an array that has the store details of each order.
+local field: is the one that you are writing code in (the active collection)
+foreignField: the linked from the stores collection (foriegn)
+
+=======================
+
+so in the stores collection it would be like this :
+[
+  {$lookup: {
+    from: "orders",
+    localField: "_id",
+    foreignField: "storeId",
+    as: "orderes"
+  }}
+]
+
+=============================
+=============================
+
+adding index makes the query faster
+
+================================
+
+
+
+
+
+HomeWork use ai to create a database then do this 
+
+Challenges :
+
+    1- Scenario: Each user has one profile (bio, avatar) :
+        Design the schema so fetching a user always includes their profile in a single query. Then write a query to find all users whose profile city is "Cairo".
+
+// match Address.city = "cityName"
+==
+
+[{$match: {
+  "profile.city":"Cairo"
+}}]
+
+// 3 users are from Cairo
+
+==
+
+    2- Scenario: A blog collection and a comments collection. Each blog has many comments:
+        Design the schema using references.
+        Write a $lookup aggregation to return a blog post with all its comments attached.
+        Then modify it to only include comments where approved: true.
+
+// comments collection has a field called approved which is set to true
+
+=================
+[{
+  $lookup: {
+    from: "comments",
+    localField: "_id",
+    foreignField: "blogId",
+    pipeline: [
+      {$match: {"approved": true}
+      }
+    ],
+    as: "result"
+  }
+}]
+// using pipeline to match only approved documents first then adding them to their blogs
+----
+or :
+----
+
+[{
+  $lookup: {
+    from: "comments",
+    localField: "_id",
+    foreignField: "blogId",
+    as: "comments"
+  }
+},
+ {$unwind: {
+   path: "$comments",
+ }},{
+   $match: {
+     "comments.approved": true
+   }
+ }]
+
+=================
+    3- Scenario: students and courses, using arrays of IDs (from earlier):
+        Start by finding the Math course `_id`  , then `$match` students whose `course_ids` array contains it, then `$lookup` again to expand all their courses.
+
+// first we get the math course with match then we lookup 
+=================
+[{$match: {
+  course_ids: 101
+}},{$lookup: {
+  from: "courses",
+  localField: "course_ids",
+  foreignField: "_id",
+  as: "courses"
+}}]
+=================
+    4- Scenario: Same students/courses, but now using an enrollments junction collection that also stores grade and enrollment_date:
+        Write an aggregation that returns, for each course, the average grade of enrolled students, sorted from highest to lowest average.
+        You'll need `$lookup` from `enrollments` to `courses` (or vice versa), then `$group` by `course_id` with `$avg`, then `$sort`.
+
+=================
+
+--- --- --- --- -
+  [
+    {$lookup: {
+    from: "courses",
+    localField: "courseId",
+    foreignField: "_id",
+    as: "courseDetails"
+  }},{$unwind: {
+    path: "$courseDetails"
+  }},
+  {$group: {
+    _id: "$courseDetails.title",
+    "average grade": {
+      $avg: "$grade"
+    }
+  }},{
+    $sort: {
+      "average grade": -1
+    }
+  }
+  ]
+=================
+
+    5- Scenario: authors → books → reviews. An author has many books, and each book has many reviews (with a rating field):
+        Write a single aggregation pipeline that returns each author with:
+            - Their list of books
+            - For each book, its average rating
+            - A top-level field showing the author's overall average rating across all their books
+
+        Hint: This needs nested `$lookup`s (books → reviews inside a pipeline), `$addFields` with `$avg` per book, then a second-level `$group` or `$avg` across the book averages back at the author level. This is the closest MongoDB gets to a 3-table JOIN with aggregation math on top.
+
+
+===========
+- - - - - -
+[
+  {
+    $lookup: {
+      from: "books",
+      localField: "_id",
+      foreignField: "authorId",
+      pipeline: [
+        {
+          $lookup: {
+            from: "reviews",
+            localField: "_id",
+            foreignField: "bookId",
+            pipeline: [],
+            as: "reviews"
+          }
+        },
+        {
+          $addFields: {
+            bookAvgRating: {
+              $avg: "$reviews.rating"
+            }
+          }
+        }
+      ],
+      as: "books"
+    }
+  },
+  {
+    $unwind: {
+      path: "$books"
+    }
+  },
+  {
+    $group: {
+      _id: "$name",
+      books: {$push: "$books"},
+      country: {$first:"$country"},
+      authorAvgRating: {
+        $avg: "$books.bookAvgRating"
+      }
+    }
+  }, 
+  {$sort: {
+    "authorAvgRating": -1
+  }}
+]
+
+- - - - - -
+===========
+
+    6- Scenario: Each car sends a new GPS location every few seconds (lat, lng, timestamp). Over a day, one car can generate thousands of location points. You have many cars, each with a huge, ever-growing location history:
+        - Design the schema. Decide: should locations be embedded inside the car document, or stored in a separate locations collection? Justify your choice. 
+===========
+          // many locations so referencing or separate 
+      
+            will use carId to reference the car in each location change
+===========
+        - Write a query to get a car's last known location (most recent point) — should be fast, no scanning thousands of documents.
+
+
+===
+adding an index for carId ASC and timestamp DESC
+============
+[{$match: {
+  carId: 2
+}},
+{$sort: {
+  timestamp: -1
+}},
+{
+  $limit: 1
+}]
+============
+
+
+        - Write an aggregation to get a car's path over the last 1 hour (all points between two timestamps), sorted oldest to newest.
+
+============
+
+============
+        - Bonus: Write a query to find the top 5 cars with the most location updates today.

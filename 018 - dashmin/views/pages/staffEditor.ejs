@@ -1,0 +1,149 @@
+<%- include('../partials/siteHeader', {pageTitle: "Staff Page" }) %>
+
+<form action="/staffeditor/<%= index %>" method="POST">
+
+    <div class="bg-light rounded h-100 p-4">
+
+        <h6 class="mb-4">Edit Employee</h6>
+
+        <!-- Name -->
+        <div class="form-floating mb-3">
+            <input
+                type="text"
+                class="form-control"
+                id="name"
+                name="name"
+                value="<%= employee?.name %>"
+            >
+            <label for="name">Employee Name</label>
+        </div>
+
+        <!-- Address -->
+        <div class="form-floating mb-3">
+            <input
+                type="text"
+                class="form-control"
+                id="address"
+                name="address"
+                value="<%= employee?.address %>"
+            >
+            <label for="address">Address</label>
+        </div>
+
+        <!-- Job -->
+        <div class="form-floating mb-3">
+
+            <select
+                class="form-select"
+                id="job"
+                name="job"
+            >
+
+                <option value="Frontend Developer"
+                    <%= employee?.job === "Frontend Developer" ? "selected" : "" %>>
+                    Frontend Developer
+                </option>
+
+                <option value="Backend Developer"
+                    <%= employee?.job === "Backend Developer" ? "selected" : "" %>>
+                    Backend Developer
+                </option>
+
+                <option value="Plant Biologist"
+                    <%= employee?.job === "Plant Biologist" ? "selected" : "" %>>
+                    Plant Biologist
+                </option>
+
+                <option value="Botany Researcher"
+                    <%= employee?.job === "Botany Researcher" ? "selected" : "" %>>
+                    Botany Researcher
+                </option>
+
+                <option value="Full Stack Developer"
+                    <%= employee?.job === "Full Stack Developer" ? "selected" : "" %>>
+                    Full Stack Developer
+                </option>
+
+                <option value="Plant Geneticist"
+                    <%= employee?.job === "Plant Geneticist" ? "selected" : "" %>>
+                    Plant Geneticist
+                </option>
+
+                <option value="Plant Ecologist"
+                    <%= employee?.job === "Plant Ecologist" ? "selected" : "" %>>
+                    Plant Ecologist
+                </option>
+
+                <option value="Data Analyst - Botany"
+                    <%= employee?.job === "Data Analyst - Botany" ? "selected" : "" %>>
+                    Data Analyst - Botany
+                </option>
+
+            </select>
+
+            <label for="job">Job</label>
+
+        </div>
+
+        <!-- Experience -->
+        <div class="form-floating mb-3">
+            <input
+                type="text"
+                class="form-control"
+                id="experience"
+                name="experience"
+                value="<%= employee?.experience %>"
+            >
+            <label for="experience">Experience</label>
+        </div>
+
+        <!-- Description -->
+        <div class="form-floating mb-3">
+            <textarea
+                class="form-control"
+                id="description"
+                name="description"
+                placeholder="Description"
+                style="height: 150px;"
+            ><%= employee?.description %></textarea>
+
+            <label for="description">Description</label>
+        </div>
+
+        <!-- Age -->
+        <div class="form-floating mb-3">
+            <input
+                type="number"
+                class="form-control"
+                id="age"
+                name="age"
+                value="<%= employee?.age %>"
+            >
+            <label for="age">Age</label>
+        </div>
+
+        <!-- Current Photo -->
+        <div class="mb-3">
+            <label class="form-label">Current Photo</label>
+
+            <br>
+
+            <img
+                src="<%= employee?.photo %>"
+                alt="<%= employee?.name %>"
+                class="mb-3"
+                style="width: 150px; height: 150px; object-fit: cover;"
+            >
+        </div>
+
+<!-- <input class="form-control" type="file" id="formFile"> -->
+
+        <button class="btn btn-secondary" type="submit">
+            Save Changes
+        </button>
+
+    </div>
+
+</form>
+
+<%- include('../partials/siteFooter') %>

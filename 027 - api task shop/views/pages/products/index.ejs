@@ -1,0 +1,38 @@
+<%- include('../../partials/siteHeader', {pageTitle: 'Products'}) %>
+
+<section>
+    <div class="page-heading d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
+        <div><p class="text-uppercase text-secondary small fw-semibold mb-1">Shop management</p><h1 class="h2 mb-0">Product catalog</h1></div>
+        <a class="btn btn-primary" href="/products/createForm">Add product</a>
+    </div>
+    <% if (products.length) { %>
+        <div class="table-responsive card shadow-sm border-0"><table class="table table-hover align-middle mb-0">
+            <thead class="table-light"><tr><th>Product name</th><th>Price</th><th>Category</th><th>Actions</th></tr></thead>
+            <tbody>
+                <% products.forEach(product => { %>
+                    <tr>
+                        <td class="fw-semibold"><%= product.name %></td>
+                        <td><%= product.price %></td>
+                        <td><%= product.category ? product.category.name : '-' %></td>
+                        <td><div class="d-flex gap-2">
+                            <a class="btn btn-sm btn-outline-primary" href="/products/show/<%= product._id %>">Details</a>
+                            <a class="btn btn-sm btn-outline-secondary" href="/products/updateForm/<%= product._id %>">Edit</a>
+                            <button class="btn btn-sm btn-outline-danger" type="button" onclick="destroy(this);" productID="<%= product._id %>">Delete</button>
+                        </div></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table></div>
+    <% } else { %>
+        <div class="alert alert-light border">No products in the catalog yet. Add your first product to get started.</div>
+    <% } %>
+</section>
+
+<script>
+    function destroy(button) {
+        if (confirm('Are you sure you want to delete this product?')) {
+            window.location.replace('/products/destroy/' + button.getAttribute('productID'));
+        }
+    }
+</script>
+<%- include('../../partials/siteFooter') %>
