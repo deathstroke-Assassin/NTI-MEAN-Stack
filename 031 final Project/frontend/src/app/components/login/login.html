@@ -1,0 +1,75 @@
+
+<div class="login-page">
+  <div class="botanical-bg"></div>
+
+  <section class="login-card">
+    <div class="brand">
+      <div class="brand-icon">✳</div>
+      <span>BOTANICA<span class="brand-light"> LAB</span></span>
+    </div>
+
+    <div class="welcome">
+      <p class="eyebrow">PLANT SCIENCE SUPPLIES</p>
+      <h1>Welcome<br />back<span>.</span></h1>
+      <p class="subtitle">
+        Your workspace for everything that grows.
+      </p>
+    </div>
+
+ 
+<form (ngSubmit)="login()" #loginForm="ngForm">
+  <div class="form-group">
+    <label for="username">Username</label>
+    <input
+      id="username"
+      name="username"
+      type="text"
+      [(ngModel)]="username"
+      autocomplete="username"
+      required
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input
+      id="password"
+      name="password"
+      type="password"
+      [(ngModel)]="password"
+      autocomplete="current-password"
+      required
+    />
+  </div>
+
+  <p class="error-message" *ngIf="error">
+    {{ error }}
+  </p>
+
+  <button type="submit" [disabled]="loginForm.invalid || loading">
+    {{ loading ? 'Signing in...' : 'Sign in to workspace' }}
+    <span aria-hidden="true">↗</span>
+  </button>
+</form>
+
+    <div class="login-footer">
+      <span class="status-dot"></span>
+      <span>Plant science, thoughtfully supplied.</span>
+    </div>
+  </section>
+
+  <aside class="side-panel">
+    <div class="side-label">GROW · STUDY · DISCOVER</div>
+    <div class="side-copy">
+      <span class="decorative-line"></span>
+      <h2>Every discovery<br />starts with a<br /><em>seed.</em></h2>
+      <p>
+        Tools for curious minds and the people growing tomorrow.
+      </p>
+    </div>
+    <div class="side-bottom">
+      <span>BOTANICAL RESEARCH &amp; SUPPLIES</span>
+      <span>EST. 2026</span>
+    </div>
+  </aside>
+</div>
