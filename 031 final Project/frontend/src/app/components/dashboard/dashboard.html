@@ -5,8 +5,8 @@
     <a class="brand" routerLink="/dashboard">
       <div class="brand-icon">✿</div>
       <div class="brand-text">
-        <span class="brand-name">Verdant</span>
-        <span class="brand-subtitle">PLANT SCIENCE SUPPLIES</span>
+<span class="brand-name">BOTANICA LAB</span>
+<span class="brand-subtitle">PLANT SCIENCE SUPPLIES</span>
       </div>
     </a>
 
@@ -91,20 +91,20 @@
         </span>
       </div>
 
-      <div class="loading-panel" *ngIf="loading">
+      <div class="loading-panel" *ngIf="loading()">
         <span class="spinner"></span>
         <p>Gathering your store statistics...</p>
       </div>
 
-      <div class="error-panel" *ngIf="error">
+      <div class="error-panel" *ngIf="error()">
         <span class="error-icon">!</span>
         <div>
           <strong>Couldn't load your statistics</strong>
-          <p>{{ error }}</p>
+          <p>{{ error() }}</p>
         </div>
       </div>
 
-      <div class="stats-grid" *ngIf="stats as s">
+      <div class="stats-grid" *ngIf="stats() as s">
         <article class="stat-card products-card">
           <div class="stat-card-top">
             <div class="stat-icon">▤</div>
@@ -158,6 +158,45 @@
         </article>
       </div>
 
+<!-- Management shortcuts -->
+<section class="management-section">
+  <div class="section-heading">
+    <div>
+      <h2>Store management</h2>
+      <p>Manage your catalog and keep your store organized.</p>
+    </div>
+  </div>
+
+  <div class="management-grid">
+    <a class="management-card" routerLink="/dashboard/categories">
+      <div class="management-icon categories-icon">❀</div>
+      <div class="management-info">
+        <h3>Categories</h3>
+        <p>View and manage your product categories.</p>
+      </div>
+      <span class="management-arrow">↗</span>
+    </a>
+
+    <a class="management-card" routerLink="/dashboard/items">
+      <div class="management-icon items-icon">▤</div>
+      <div class="management-info">
+        <h3>Items</h3>
+        <p>Add products, update prices, and manage stock.</p>
+      </div>
+      <span class="management-arrow">↗</span>
+    </a>
+
+    <a class="management-card" routerLink="/dashboard/orders">
+      <div class="management-icon orders-icon">⌑</div>
+      <div class="management-info">
+        <h3>Orders</h3>
+        <p>View customer orders and manage their status.</p>
+      </div>
+      <span class="management-arrow">↗</span>
+    </a>
+  </div>
+</section>
+
       <section class="bottom-panel">
         <div class="bottom-icon">♧</div>
         <div>
@@ -171,7 +210,7 @@
       </section>
 
       <footer class="dashboard-footer">
-        <span>VERDANT <span class="footer-divider">·</span> PLANT SCIENCE SUPPLIES</span>
+        <span>BOTANICA LAB <span class="footer-divider">·</span> PLANT SCIENCE SUPPLIES</span>
         <span>Made for things that grow <span class="footer-heart">♥</span></span>
       </footer>
     </section>

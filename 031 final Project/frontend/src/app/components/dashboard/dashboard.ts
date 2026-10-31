@@ -1,5 +1,5 @@
 
-import { Component, OnInit, ChangeDetectorRef  } from '@angular/core';
+import { Component, OnInit, signal  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardService, DashboardStats } from '../../services/dashboard';
 import { Router } from '@angular/router';
@@ -14,29 +14,28 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './dashboard.css'
 })
 export class Dashboard implements OnInit {
-  stats: DashboardStats | null = null;
-  loading = true;
-  error = '';
+stats = signal<DashboardStats | null>(null);
+loading = signal(true);
+error = signal('');
 
   constructor(
     private dashboardService: DashboardService,
-    private cdr: ChangeDetectorRef,
     private auth: Auth,
-    private router: Router
+    private router: Router,
+
   ) {}
 
   ngOnInit(): void {
+
     this.dashboardService.getStats().subscribe({
-      next: (response) => {
-        this.stats = response.data;
-        this.loading = false;
-        this.cdr.detectChanges();
-      },
+     next: (response) => {
+  this.stats.set(response.data);
+  this.loading.set(false);
+},
       error: (err) => {
         console.error('Failed to load dashboard stats:', err);
-        this.error = 'Failed to load dashboard statistics.';
-        this.loading = false;
-        this.cdr.detectChanges();
+        this.error.set('Failed to load dashboard statistics.');
+        this.loading.set(false);
       }
     });
   }

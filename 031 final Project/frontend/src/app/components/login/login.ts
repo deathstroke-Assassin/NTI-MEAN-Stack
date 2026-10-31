@@ -1,5 +1,5 @@
 
-import { Component } from '@angular/core';
+import { Component,signal  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -16,7 +16,7 @@ export class Login {
   username = '';
   password = '';
   loading = false;
-  error = '';
+  error = signal('');
 
   constructor(
     private auth: Auth,
@@ -24,10 +24,10 @@ export class Login {
   ) {}
 
  login(): void {
-  this.error = '';
+  this.error.set('');
 
   if (!this.username.trim() || !this.password) {
-    this.error = 'Enter your username and password.';
+    this.error.set('Enter your username and password.')
     return;
   }
 
@@ -44,7 +44,7 @@ export class Login {
 
         this.router.navigate(['/dashboard']);
       } else {
-        this.error = 'Sign-in failed.';
+        this.error.set('Sign-in failed.');
         this.loading = false;
       }
     },
@@ -52,9 +52,9 @@ export class Login {
       console.error('Sign-in error:', err);
 
       if (err.status === 401) {
-        this.error = 'Invalid username or password.';
+        this.error.set('Invalid username or password.')
       } else {
-        this.error = 'Unable to connect to the server.';
+        this.error.set('Unable to connect to the server.')
       }
 
       this.loading = false;

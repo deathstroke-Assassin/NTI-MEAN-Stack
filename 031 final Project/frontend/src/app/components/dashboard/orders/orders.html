@@ -1,0 +1,174 @@
+
+<div class="orders-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">BOTANICA LAB / MANAGEMENT</p>
+      <h1>Orders</h1>
+      <p class="subtitle">Manage customer requests and phone deliveries.</p>
+    </div>
+
+    <button class="refresh-btn" (click)="loadOrders()" [disabled]="loading()">
+      ↻ Refresh
+    </button>
+  </header>
+
+  <section class="stats">
+    <article class="stat-card">
+      <span class="stat-label">All orders</span>
+      <strong>{{ orders.length }}</strong>
+    </article>
+
+    <article class="stat-card opened-stat">
+      <span class="stat-label">Open orders</span>
+      <strong>{{ openedCount }}</strong>
+    </article>
+
+    <article class="stat-card closed-stat">
+      <span class="stat-label">Closed orders</span>
+      <strong>{{ closedCount }}</strong>
+    </article>
+  </section>
+
+  <nav class="filters">
+    <button
+      [class.active]="selectedStatus === 'all'"
+      (click)="setFilter('all')">
+      All orders
+    </button>
+
+    <button
+      [class.active]="selectedStatus === 'opened'"
+      (click)="setFilter('opened')">
+      Opened
+    </button>
+
+    <button
+      [class.active]="selectedStatus === 'closed'"
+      (click)="setFilter('closed')">
+      Closed
+    </button>
+  </nav>
+
+  <p class="message error" *ngIf="errorMessage">{{ errorMessage }}</p>
+  <p class="message success" *ngIf="successMessage">{{ successMessage }}</p>
+
+  <div class="loading" *ngIf="loading()">Loading orders...</div>
+
+  <div class="empty-state" *ngIf="!loading() && filteredOrders.length === 0">
+    <span class="empty-icon">◇</span>
+    <h2>No orders found</h2>
+    <p>Orders submitted by customers will appear here.</p>
+  </div>
+
+  <section class="orders-list" *ngIf="!loading() && filteredOrders.length > 0">
+    <article class="order-card" *ngFor="let order of filteredOrders">
+      <div class="order-top">
+        <div>
+          <span class="order-number">
+            Order #{{ order._id.slice(-6).toUpperCase() }}
+          </span>
+          <p class="order-date">{{ formatDate(order.createdAt) }}</p>
+        </div>
+
+        <span class="status" [class.opened]="order.status === 'opened'"
+          [class.closed]="order.status === 'closed'">
+          {{ order.status }}
+        </span>
+      </div>
+
+      <div class="order-middle">
+        <div>
+          <span class="field-label">CUSTOMER</span>
+          <strong>{{ order.customer.name }}</strong>
+          <span class="muted">{{ order.customer.phone }}</span>
+        </div>
+
+        <div>
+          <span class="field-label">ITEMS</span>
+          <strong>{{ order.items.length }} product(s)</strong>
+          <span class="muted">{{ order.items.reduce(countItems.bind(this), 0) }} unit(s)</span>
+        </div>
+
+        <div>
+          <span class="field-label">TOTAL</span>
+          <strong class="total">{{ order.total | number:'1.2-2' }} EGP</strong>
+        </div>
+      </div>
+
+      <div class="order-bottom">
+        <span class="muted address">{{ order.customer.address }}</span>
+        <button class="details-btn" (click)="openOrder(order)">
+          View details →
+        </button>
+      </div>
+    </article>
+  </section>
+
+  <div class="modal-backdrop" *ngIf="selectedOrder" (click)="closeDetails()">
+    <section class="order-modal" (click)="$event.stopPropagation()">
+      <header class="modal-header">
+        <div>
+          <p class="eyebrow">ORDER DETAILS</p>
+          <h2>#{{ selectedOrder._id.slice(-6).toUpperCase() }}</h2>
+        </div>
+        <button class="close-btn" (click)="closeDetails()">✕</button>
+      </header>
+
+      <div class="customer-panel">
+        <h3>Customer information</h3>
+        <p><strong>Name:</strong> {{ selectedOrder.customer.name }}</p>
+        <p>
+          <strong>Phone:</strong>
+          <a [href]="'tel:' + selectedOrder.customer.phone">
+            {{ selectedOrder.customer.phone }}
+          </a>
+        </p>
+        <p><strong>Address:</strong> {{ selectedOrder.customer.address }}</p>
+        <p><strong>Placed:</strong> {{ formatDate(selectedOrder.createdAt) }}</p>
+      </div>
+
+      <h3>Purchased items</h3>
+
+      <div class="item-row" *ngFor="let item of selectedOrder.items">
+        <div>
+          <strong>{{ item.name }}</strong>
+          <span class="muted">{{ item.quantity }} × {{ item.price }} EGP</span>
+        </div>
+        <strong>{{ item.quantity * item.price | number:'1.2-2' }} EGP</strong>
+      </div>
+
+      <div class="grand-total">
+        <span>Total</span>
+        <strong>{{ selectedOrder.total | number:'1.2-2' }} EGP</strong>
+      </div>
+
+      <div class="form-field">
+        <label for="orderStatus">Order status</label>
+        <select id="orderStatus" [(ngModel)]="selectedOrder.status">
+          <option value="opened">Opened</option>
+          <option value="closed">Closed</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label for="orderNotes">Manager notes</label>
+        <textarea
+          id="orderNotes"
+          rows="4"
+          [(ngModel)]="selectedOrder.notes"
+          placeholder="Record phone calls, delivery arrangements, or other notes...">
+        </textarea>
+      </div>
+
+      <p class="message error" *ngIf="errorMessage">{{ errorMessage }}</p>
+      <p class="message success" *ngIf="successMessage">{{ successMessage }}</p>
+
+      <footer class="modal-actions">
+        <button class="cancel-btn" (click)="closeDetails()">Cancel</button>
+        <button class="save-btn" (click)="saveOrder()" [disabled]="saving">
+          {{ saving ? 'Saving...' : 'Save changes' }}
+        </button>
+      </footer>
+    </section>
+  </div>
+</div>

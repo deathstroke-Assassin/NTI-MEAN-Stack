@@ -1,0 +1,327 @@
+
+<div class="items-page">
+  <header class="page-header">
+    <div>
+      <a routerLink="/dashboard" class="back-link">← Dashboard</a>
+      <p class="eyebrow">INVENTORY MANAGEMENT</p>
+      <h1>Items <span class="title-leaf">✿</span></h1>
+      <p class="page-description">
+        Manage your plant science supplies, prices and stock.
+      </p>
+    </div>
+
+    <button class="primary-button" type="button" (click)="openCreate()">
+      <span>＋</span> Add item
+    </button>
+  </header>
+
+  <div class="notice error-notice" *ngIf="error()">
+    {{ error() }}
+    <button type="button" (click)="error.set('')" aria-label="Dismiss">×</button>
+  </div>
+
+  <div class="notice success-notice" *ngIf="success">
+    {{ success }}
+    <button type="button" (click)="success = ''" aria-label="Dismiss">×</button>
+  </div>
+
+  <section class="summary-grid">
+    <article class="summary-card">
+      <span class="summary-label">Total items</span>
+      <strong>{{ items.length }}</strong>
+      <span class="summary-note">Across your inventory</span>
+    </article>
+
+    <article class="summary-card">
+      <span class="summary-label">Active items</span>
+      <strong>{{ activeCount }}</strong>
+      <span class="summary-note">Available in your store</span>
+    </article>
+
+    <article class="summary-card">
+      <span class="summary-label">Low stock</span>
+      <strong>{{ lowStockCount }}</strong>
+      <span class="summary-note">Fewer than 10 units</span>
+    </article>
+  </section>
+
+  <section class="inventory-panel">
+    <div class="panel-heading">
+      <div>
+        <h2>Your inventory</h2>
+        <p>Review and update your listed items.</p>
+      </div>
+
+      <label class="search-box">
+        <span>⌕</span>
+        <input
+          type="search"
+          [(ngModel)]="search"
+          placeholder="Search items..."
+          aria-label="Search items"
+        />
+      </label>
+    </div>
+
+    <div *ngIf="loading()" class="empty-state">
+      <span class="loading-dot"></span>
+      Loading your inventory...
+    </div>
+
+    <div class="table-wrapper" *ngIf="!loading()">
+      <table *ngIf="filteredItems.length > 0; else noItems">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Status</th>
+            <th class="actions-heading">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let item of filteredItems; trackBy: trackById">
+            <td>
+              <div class="item-cell">
+                <div class="item-image">
+                  <img
+                    *ngIf="item.photo"
+                    [src]="'/img/uploades/' + item.photo"
+                    [alt]="item.name"
+                  />
+                  <span *ngIf="!item.photo">✿</span>
+                </div>
+
+                <div class="item-details">
+                  <strong>{{ item.name }}</strong>
+                  <span>{{ item.description || 'No description' }}</span>
+                </div>
+              </div>
+            </td>
+
+            <td>
+              <span class="category-label">
+                {{ item.category?.name || 'Uncategorized' }}
+              </span>
+            </td>
+
+            <td class="price-cell">{{ item.price | number:'1.2-2' }}</td>
+
+            <td>
+              <span
+                class="quantity-value"
+                [class.low-stock]="item.quantity < 10"
+              >
+                {{ item.quantity }}
+              </span>
+            </td>
+
+            <td>
+              <span
+                class="status-pill"
+                [class.status-active]="item.isActive"
+                [class.status-inactive]="!item.isActive"
+              >
+                <span class="status-dot"></span>
+                {{ item.isActive ? 'Active' : 'Inactive' }}
+              </span>
+            </td>
+
+            <td>
+              <div class="row-actions">
+                <button
+                  class="edit-button"
+                  type="button"
+                  (click)="openEdit(item)"
+                >
+                  Edit
+                </button>
+                <button
+                  class="delete-button"
+                  type="button"
+                  (click)="deleteItem(item)"
+                >
+                  Delete
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ng-template #noItems>
+        <div class="empty-state">
+          <span class="empty-icon">✿</span>
+          <h3>{{ search ? 'No matching items' : 'Your inventory is empty' }}</h3>
+          <p>
+            {{
+              search
+                ? 'Try another search term.'
+                : 'Add your first item to get started.'
+            }}
+          </p>
+          <button
+            *ngIf="!search"
+            type="button"
+            class="primary-button"
+            (click)="openCreate()"
+          >
+            Add your first item
+          </button>
+        </div>
+      </ng-template>
+    </div>
+
+    <footer class="table-footer" *ngIf="!loading()">
+      Showing {{ filteredItems.length }} of {{ items.length }} items
+    </footer>
+  </section>
+
+  <!-- Create / Edit modal -->
+  <div
+    class="modal-backdrop"
+    *ngIf="showForm"
+    (click)="closeForm()"
+  >
+    <section
+      class="item-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="item-form-title"
+      (click)="$event.stopPropagation()"
+    >
+      <header class="modal-header">
+        <div>
+          <p class="eyebrow">INVENTORY DETAILS</p>
+          <h2 id="item-form-title">
+            {{ editingId ? 'Edit item' : 'Add a new item' }}
+          </h2>
+          <p>Fill in the details for your store inventory.</p>
+        </div>
+
+        <button
+          class="close-button"
+          type="button"
+          (click)="closeForm()"
+          [disabled]="saving"
+          aria-label="Close form"
+        >×</button>
+      </header>
+
+      <form (ngSubmit)="saveItem()">
+        <div class="form-grid">
+          <label class="form-field full-width">
+            <span>Item name *</span>
+            <input
+              type="text"
+              name="name"
+              [(ngModel)]="form.name"
+              required
+              maxlength="120"
+              placeholder="e.g. Tomato Seeds"
+            />
+          </label>
+
+          <label class="form-field full-width">
+            <span>Description</span>
+            <textarea
+              name="description"
+              [(ngModel)]="form.description"
+              rows="3"
+              placeholder="Describe the item..."
+            ></textarea>
+          </label>
+
+          <label class="form-field">
+            <span>Price *</span>
+            <input
+              type="number"
+              name="price"
+              [(ngModel)]="form.price"
+              min="0"
+              step="0.01"
+              required
+            />
+          </label>
+
+          <label class="form-field">
+            <span>Quantity *</span>
+            <input
+              type="number"
+              name="quantity"
+              [(ngModel)]="form.quantity"
+              min="0"
+              step="1"
+              required
+            />
+          </label>
+
+          <label class="form-field full-width">
+            <span>Category *</span>
+            <select
+              name="categoryId"
+              [(ngModel)]="form.categoryId"
+              required
+            >
+              <option value="" disabled>Select a category</option>
+              <option *ngFor="let category of categories" [value]="category._id">
+                {{ category.name }}
+              </option>
+            </select>
+
+            <small *ngIf="categories.length === 0">
+              No categories found. Create a category before adding an item.
+            </small>
+          </label>
+
+          <label class="form-field full-width">
+            <span>Item photo {{ editingId ? '(optional replacement)' : '(optional)' }}</span>
+            <input
+              [attr.data-input-key]="photoInputKey"
+              type="file"
+              accept="image/*"
+              (change)="onPhotoSelected($event)"
+            />
+            <small>
+              Leave this empty to keep the existing photo when editing.
+            </small>
+          </label>
+
+          <label class="active-toggle full-width">
+            <input
+              type="checkbox"
+              name="isActive"
+              [(ngModel)]="form.isActive"
+            />
+            <span>
+              <strong>Active item</strong>
+              <small>Allow this item to be available in the store.</small>
+            </span>
+          </label>
+        </div>
+
+        <div class="form-error" *ngIf="error()">{{ error() }}</div>
+
+        <footer class="modal-actions">
+          <button
+            type="button"
+            class="secondary-button"
+            (click)="closeForm()"
+            [disabled]="saving"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="primary-button"
+            [disabled]="saving || categories.length === 0"
+          >
+            {{ saving ? 'Saving...' : (editingId ? 'Save changes' : 'Create item') }}
+          </button>
+        </footer>
+      </form>
+    </section>
+  </div>
+</div>

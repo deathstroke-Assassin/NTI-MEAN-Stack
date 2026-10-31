@@ -42,8 +42,8 @@
     />
   </div>
 
-  <p class="error-message" *ngIf="error">
-    {{ error }}
+  <p class="error-message" *ngIf="error()">
+    {{ error() }}
   </p>
 
   <button type="submit" [disabled]="loginForm.invalid || loading">

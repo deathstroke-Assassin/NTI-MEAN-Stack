@@ -799,3 +799,91 @@
     flex-direction: column;
   }
 }
+
+
+/* Store management shortcuts */
+
+.management-section {
+  margin-top: 34px;
+}
+
+.management-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 17px;
+}
+
+.management-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  min-width: 0;
+  padding: 22px 18px;
+  border: 1px solid #e7e8df;
+  border-radius: 14px;
+  background: #fffefa;
+  color: #294433;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.management-card:hover {
+  transform: translateY(-3px);
+  border-color: #cbd8c1;
+  box-shadow: 0 9px 25px rgba(38, 60, 42, 0.07);
+}
+
+.management-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  font-size: 22px;
+}
+
+.categories-icon {
+  color: #a17d43;
+  background: #f5ecda;
+}
+
+.items-icon {
+  color: #466e4b;
+  background: #e7efe2;
+}
+
+.orders-icon {
+  color: #627b9a;
+  background: #e8edf4;
+}
+
+.management-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.management-info h3 {
+  margin: 2px 0 8px;
+  font-family: Georgia, serif;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.management-info p {
+  margin: 0;
+  color: #858c80;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.management-arrow {
+  color: #7b9270;
+  font-size: 18px;
+}
+
+@media (max-width: 1050px) {
+  .management-grid {
+    grid-template-columns: 1fr;
+  }
+}

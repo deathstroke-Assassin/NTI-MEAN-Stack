@@ -1,0 +1,213 @@
+
+<div class="categories-page">
+  <header class="page-header">
+    <div>
+      <a routerLink="/dashboard" class="back-link">← Dashboard</a>
+      <p class="eyebrow">STORE ORGANIZATION</p>
+      <h1>Categories <span class="title-leaf">✿</span></h1>
+      <p class="page-description">
+        Organize your botanical supplies into clear categories.
+      </p>
+    </div>
+
+    <button class="primary-button" type="button" (click)="openCreate()">
+      ＋ Add category
+    </button>
+  </header>
+
+  <div class="notice error-notice" *ngIf="error()">
+    {{ error() }}
+    <button type="button" (click)="error.set('')">×</button>
+  </div>
+
+  <div class="notice success-notice" *ngIf="success">
+    {{ success }}
+    <button type="button" (click)="success = ''">×</button>
+  </div>
+
+  <section class="summary-grid">
+    <article class="summary-card">
+      <span class="summary-label">Total categories</span>
+      <strong>{{ categories.length }}</strong>
+      <span class="summary-note">Your store's organization</span>
+    </article>
+
+    <article class="summary-card">
+      <span class="summary-label">Search results</span>
+      <strong>{{ filteredCategories.length }}</strong>
+      <span class="summary-note">Matching categories</span>
+    </article>
+  </section>
+
+  <section class="categories-panel">
+    <div class="panel-heading">
+      <div>
+        <h2>Your categories</h2>
+        <p>Create and maintain your product categories.</p>
+      </div>
+
+      <label class="search-box">
+        <span>⌕</span>
+        <input
+          type="search"
+          [(ngModel)]="search"
+          placeholder="Search categories..."
+          aria-label="Search categories"
+        />
+      </label>
+    </div>
+
+    <div class="empty-state" *ngIf="loading()">
+      Loading categories...
+    </div>
+
+    <div class="table-wrapper" *ngIf="!loading()">
+      <table *ngIf="filteredCategories.length; else noCategories">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Last updated</th>
+            <th class="actions-heading">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let category of filteredCategories; trackBy: trackById">
+            <td>
+              <div class="category-cell">
+                <span class="category-icon">✿</span>
+                <strong>{{ category.name }}</strong>
+              </div>
+            </td>
+
+            <td class="description-cell">
+              {{ category.description || 'No description' }}
+            </td>
+
+            <td class="date-cell">
+              {{ category.updatedAt ? (category.updatedAt | date:'mediumDate') : '—' }}
+            </td>
+
+            <td>
+              <div class="row-actions">
+                <button
+                  type="button"
+                  class="edit-button"
+                  (click)="openEdit(category)"
+                >Edit</button>
+
+                <button
+                  type="button"
+                  class="delete-button"
+                  (click)="deleteCategory(category)"
+                >Delete</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ng-template #noCategories>
+        <div class="empty-state">
+          <span class="empty-icon">✿</span>
+          <h3>{{ search ? 'No matching categories' : 'No categories yet' }}</h3>
+          <p>
+            {{
+              search
+                ? 'Try a different search term.'
+                : 'Create your first category to organize your inventory.'
+            }}
+          </p>
+          <button
+            *ngIf="!search"
+            type="button"
+            class="primary-button"
+            (click)="openCreate()"
+          >
+            Add your first category
+          </button>
+        </div>
+      </ng-template>
+    </div>
+
+    <footer class="table-footer" *ngIf="!loading()">
+      Showing {{ filteredCategories.length }} of {{ categories.length }} categories
+    </footer>
+  </section>
+
+  <div class="modal-backdrop" *ngIf="showForm" (click)="closeForm()">
+    <section
+      class="category-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="category-form-title"
+      (click)="$event.stopPropagation()"
+    >
+      <header class="modal-header">
+        <div>
+          <p class="eyebrow">CATEGORY DETAILS</p>
+          <h2 id="category-form-title">
+            {{ editingId ? 'Edit category' : 'Create a category' }}
+          </h2>
+          <p>Give this category a clear name and description.</p>
+        </div>
+
+        <button
+          type="button"
+          class="close-button"
+          (click)="closeForm()"
+          [disabled]="saving"
+          aria-label="Close form"
+        >×</button>
+      </header>
+
+      <form (ngSubmit)="saveCategory()">
+        <label class="form-field">
+          <span>Category name *</span>
+          <input
+            type="text"
+            name="name"
+            [(ngModel)]="form.name"
+            required
+            maxlength="100"
+            placeholder="e.g. Seeds & Propagation"
+          />
+        </label>
+
+        <label class="form-field">
+          <span>Description</span>
+          <textarea
+            name="description"
+            [(ngModel)]="form.description"
+            rows="4"
+            placeholder="What products belong in this category?"
+          ></textarea>
+        </label>
+
+        <div class="form-error" *ngIf="error()">{{ error() }}</div>
+
+        <footer class="modal-actions">
+          <button
+            type="button"
+            class="secondary-button"
+            (click)="closeForm()"
+            [disabled]="saving"
+          >Cancel</button>
+
+          <button
+            type="submit"
+            class="primary-button"
+            [disabled]="saving"
+          >
+            {{
+              saving
+                ? 'Saving...'
+                : (editingId ? 'Save changes' : 'Create category')
+            }}
+          </button>
+        </footer>
+      </form>
+    </section>
+  </div>
+</div>

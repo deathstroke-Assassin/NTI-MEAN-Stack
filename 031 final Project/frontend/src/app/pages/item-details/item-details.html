@@ -1,0 +1,151 @@
+
+<header class="navbar">
+  <a class="brand" routerLink="/">
+    <span class="brand-icon">✿</span>
+    <span>BOTANICA LAB</span>
+  </a>
+
+  <nav>
+    <a routerLink="/">Home</a>
+    <a routerLink="/" fragment="categories">Categories</a>
+  </nav>
+</header>
+
+<main class="details-page">
+  <a class="back-link" routerLink="/">
+    ← Back to products
+  </a>
+
+  <p *ngIf="loading()" class="status-message">
+    Loading item details...
+  </p>
+
+  <section *ngIf="error()" class="status-message error">
+    <p>{{ error() }}</p>
+    <a routerLink="/">Return to shop</a>
+  </section>
+
+  <article
+    *ngIf="!loading() && item() as product"
+    class="item-details"
+  >
+    <div class="item-image">
+      <img
+        *ngIf="photoUrl"
+        [src]="photoUrl"
+        [alt]="product.name"
+        (error)="$any($event.target).style.display = 'none'"
+      />
+    </div>
+
+    <div class="item-info">
+      <p class="eyebrow">
+        {{ product.category?.name || 'Plant science supplies' }}
+      </p>
+
+      <h1>{{ product.name }}</h1>
+
+      <p class="price">
+        {{ product.price | currency:'EGP ':'symbol':'1.2-2' }}
+      </p>
+
+      <div class="description">
+        <h2>About this item</h2>
+        <p>{{ product.description || 'No description available.' }}</p>
+      </div>
+
+      <section class="order-form-section">
+        <h2>Place your order</h2>
+
+        <p class="form-intro">
+          Enter your details and we'll contact you by phone to confirm delivery.
+        </p>
+
+        <form (ngSubmit)="submitOrder()">
+          <div class="form-group">
+            <label for="customerName">Full name</label>
+            <input
+              id="customerName"
+              type="text"
+              name="customerName"
+              [value]="customerName()"
+              (input)="customerName.set($any($event.target).value)"
+              placeholder="Enter your full name"
+              autocomplete="name"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="customerPhone">Phone number</label>
+            <input
+              id="customerPhone"
+              type="tel"
+              name="customerPhone"
+              [value]="customerPhone()"
+              (input)="customerPhone.set($any($event.target).value)"
+              placeholder="e.g. 01012345678"
+              autocomplete="tel"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="customerAddress">Delivery address</label>
+            <textarea
+              id="customerAddress"
+              name="customerAddress"
+              [value]="customerAddress()"
+              (input)="customerAddress.set($any($event.target).value)"
+              placeholder="City, area, street and building"
+              autocomplete="street-address"
+              rows="3"
+              required
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="quantity">Quantity</label>
+            <input
+              id="quantity"
+              type="number"
+              name="quantity"
+              [value]="quantity()"
+              (input)="quantity.set(+$any($event.target).value)"
+              min="1"
+              step="1"
+              required
+            />
+          </div>
+
+          <div class="order-total">
+            <span>Order subtotal</span>
+            <strong>
+              {{ orderTotal | number:'1.2-2' }} EGP
+            </strong>
+          </div>
+
+          <p *ngIf="orderError()" class="form-message error">
+            {{ orderError() }}
+          </p>
+
+          <p *ngIf="orderSuccess()" class="form-message success">
+            {{ orderSuccess() }}
+          </p>
+
+          <button
+            class="contact-button"
+            type="submit"
+            [disabled]="submitting() || loading() || !item()"
+          >
+            {{ submitting() ? 'Submitting order...' : 'Submit order' }}
+          </button>
+
+          <p class="order-note">
+            Delivery and final order details will be confirmed by phone.
+          </p>
+        </form>
+      </section>
+    </div>
+  </article>
+</main>

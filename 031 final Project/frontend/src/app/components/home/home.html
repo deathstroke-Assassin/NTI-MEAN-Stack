@@ -1,0 +1,175 @@
+<header class="navbar">
+  <a class="brand" routerLink="/">
+    <span class="brand-icon">✿</span>
+    <span>Botanical Supply</span>
+  </a>
+
+  <nav>
+    <a routerLink="/" class="active">Home</a>
+    <a href="#categories">Categories</a>
+    <a href="#favorites">Favorites</a>
+    <a href="#cart">Cart</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <p class="eyebrow">GROW WITH CONFIDENCE</p>
+    <h1>Everything your plants<br />need to <em>thrive.</em></h1>
+    <p class="hero-description">
+      Discover quality botanical supplies, tools, and essentials
+      for every stage of your growing journey.
+    </p>
+    <a href="#categories" class="shop-button">Explore categories ↓</a>
+  </section>
+
+  <section id="categories" class="categories-section">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">EXPLORE OUR COLLECTION</p>
+        <h2>Shop by category</h2>
+      </div>
+      <span class="category-count">
+        {{ categories().length }} categories
+      </span>
+    </div>
+
+    <p *ngIf="loading()" class="status-message">
+      Growing your collection...
+    </p>
+
+    <div *ngIf="error()" class="status-message error">
+      {{ error() }}
+      <button (click)="loadCategories()">Try again</button>
+    </div>
+
+    <p
+      *ngIf="!loading() && !error() && categories().length === 0"
+      class="status-message"
+    >
+      No categories yet. Check back soon!
+    </p>
+
+    <div class="category-grid" *ngIf="!loading() && !error()">
+      <article class="category-card" *ngFor="let category of categories()">
+        <div class="category-art">❋</div>
+        <div class="category-info">
+          <h3>{{ category.name }}</h3>
+          <p>{{ category.description || 'Explore our collection.' }}</p>
+          <a class="discover" [href]="'#category-' + category._id">
+            Discover collection ↗
+          </a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="products" class="products-section">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">GROW SOMETHING GOOD</p>
+        <h2>Our products</h2>
+      </div>
+      <span class="category-count">{{ items().length }} products</span>
+    </div>
+
+    <p *ngIf="loadingItems()" class="status-message">
+      Loading products...
+    </p>
+
+    <div *ngIf="itemsError()" class="status-message error">
+      {{ itemsError() }}
+      <button (click)="loadItems()">Try again</button>
+    </div>
+
+    <p
+      *ngIf="!loadingItems() && !itemsError() && items().length === 0"
+      class="status-message"
+    >
+      No products available yet. Check back soon!
+    </p>
+
+    <section
+      class="product-category"
+      *ngFor="let category of categories()"
+      [id]="'category-' + category._id"
+    >
+      <ng-container
+        *ngIf="getItemsByCategory(category._id).length > 0"
+      >
+        <h3 class="product-category-title">{{ category.name }}</h3>
+
+        <div class="product-grid">
+          <article
+            class="product-card"
+            *ngFor="let item of getItemsByCategory(category._id)"
+          >
+            <a
+              class="product-card-link"
+              [routerLink]="['/items', item._id]"
+              [attr.aria-label]="'View details for ' + item.name"
+            >
+              <div class="product-art">
+                <img
+                  *ngIf="item.photo"
+                  [src]="'/img/uploades/' + item.photo"
+                  [alt]="item.name"
+                />
+                <span *ngIf="!item.photo" class="product-placeholder">
+                  ❋
+                </span>
+              </div>
+
+              <div class="product-info">
+                <p class="product-category-name">{{ category.name }}</p>
+                <h4>{{ item.name }}</h4>
+                <p class="product-description">{{ item.description }}</p>
+                <p class="product-price">{{ item.price }} EGP</p>
+                <span class="view-details">View details →</span>
+              </div>
+            </a>
+          </article>
+        </div>
+      </ng-container>
+    </section>
+
+    <section
+      *ngIf="!loadingItems() && uncategorizedItems.length > 0"
+    >
+      <h3 class="product-category-title">Other products</h3>
+
+      <div class="product-grid">
+        <article class="product-card" *ngFor="let item of uncategorizedItems">
+          <a
+            class="product-card-link"
+            [routerLink]="['/items', item._id]"
+            [attr.aria-label]="'View details for ' + item.name"
+          >
+            <div class="product-art">
+              <img
+                *ngIf="item.photo"
+                [src]="'/img/uploades/' + item.photo"
+                [alt]="item.name"
+              />
+              <span *ngIf="!item.photo" class="product-placeholder">
+                ❋
+              </span>
+            </div>
+
+            <div class="product-info">
+              <h4>{{ item.name }}</h4>
+              <p class="product-description">{{ item.description }}</p>
+              <p class="product-price">{{ item.price }} EGP</p>
+              <span class="view-details">View details →</span>
+            </div>
+          </a>
+        </article>
+      </div>
+    </section>
+  </section>
+</main>
+
+<footer>
+  <span>✿ Botanical Supply</span>
+  <p>Made for people who love to grow.</p>
+</footer>

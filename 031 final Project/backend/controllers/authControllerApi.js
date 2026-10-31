@@ -15,11 +15,11 @@ async function dashboard(req, res) {
 
     const [totalProducts, totalCategories, totalOrders, lowStockProducts] =
       await Promise.all([
-        db.collection("products").countDocuments(),
+        db.collection("items").countDocuments(),
         db.collection("categories").countDocuments(),
         db.collection("orders").countDocuments(),
-        db.collection("products").countDocuments({
-          stock: { $lte: 5 },
+        db.collection("items").countDocuments({
+          quantity: { $lte: 5 },
         }),
       ]);
 
